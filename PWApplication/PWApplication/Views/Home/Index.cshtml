@@ -9,8 +9,14 @@
     <p>@Model.UserName</p>
     <p>PW balance: @Model.Balance</p>
 
+    <div class="form-group">
+        <a class="btn btn-primary" asp-controller="Transaction" asp-action="CreateTransaction">Create transaction</a>
+    </div>
+    
     <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Выход" />
+        <div>
+            <input class="btn btn-primary" type="submit" value="Выход" />
+        </div>
     </form>
 }
 else
