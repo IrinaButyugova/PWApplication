@@ -12,15 +12,40 @@
     <div class="form-group">
         <a class="btn btn-primary" asp-controller="Transaction" asp-action="CreateTransaction">Create transaction</a>
     </div>
-    
-    <form method="post" asp-controller="Account" asp-action="Logout">
-        <div>
-            <input class="btn btn-primary" type="submit" value="Выход" />
-        </div>
-    </form>
-}
-else
-{
-    <a asp-controller="Account" asp-action="Login">Вход</a>
-    <a asp-controller="Account" asp-action="Register">Регистрация</a>
-}
+    <table class="table">
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Correspondent name
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Balance
+            </th>
+        </tr>
+        @foreach (var transaction in Model.Transactions.OrderByDescending(x => x.Date))
+        {
+            <tr>
+                <td>@transaction.Date</td>
+                <td>@transaction.Correspondent.UserName</td>
+                <td>@transaction.Amount</td>
+                <td>@transaction.UserBalance</td>
+            </tr>
+        }
+        </table>
+
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <div>
+                <input class="btn btn-primary" type="submit" value="Выход" />
+            </div>
+        </form>
+        }
+        else
+        {
+        <a asp-controller="Account" asp-action="Login">Вход</a>
+        <a asp-controller="Account" asp-action="Register">Регистрация</a>
+        }

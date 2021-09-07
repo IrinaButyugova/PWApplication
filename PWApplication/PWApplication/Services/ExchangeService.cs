@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PWApplication.Models;
+﻿using PWApplication.Models;
 using System;
 using System.Linq;
-using System.Security.Principal;
-using SecurityClaims = System.Security.Claims;
 
 namespace PWApplication.Services
 {

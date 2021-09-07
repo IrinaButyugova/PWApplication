@@ -32,6 +32,7 @@ namespace PWApplication
                 .AddEntityFrameworkStores<ApplicationContext>();
 
             services.Configure<SettingsOptions>(Configuration.GetSection("Settings"));
+            services.AddScoped<IAccount, AccountService>();
             services.AddScoped<IExchange, ExchangeService>();
 
             services.AddControllersWithViews();

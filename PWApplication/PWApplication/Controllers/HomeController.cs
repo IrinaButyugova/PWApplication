@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PWApplication.Models;
-using System;
-using System.Collections.Generic;
+using PWApplication.Services;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PWApplication.Controllers
@@ -14,18 +12,20 @@ namespace PWApplication.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
+        private readonly IAccount _accountService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, IAccount accountService)
         {
             _logger = logger;
             _userManager = userManager;
+            _accountService = accountService;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public IActionResult IndexAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
-                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var user = _accountService.GetUser(User.Identity.Name);
                 if (user != null)
                 {
                     return View(user);
