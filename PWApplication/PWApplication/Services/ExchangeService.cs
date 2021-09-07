@@ -1,4 +1,5 @@
-﻿using PWApplication.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PWApplication.Models;
 using System;
 using System.Linq;
 
@@ -65,6 +66,14 @@ namespace PWApplication.Services
             {
                 throw new Exception($"Transaction exception: {e.Message}");
             }
+        }
+
+        public Transaction GetTransaction(int id)
+        {
+            return _appContext.Transactions
+                .Include(x => x.Correspondent)
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
         }
     }
 }

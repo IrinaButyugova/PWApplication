@@ -26,15 +26,22 @@
             <th>
                 Balance
             </th>
+            <th></th>
         </tr>
         @foreach (var transaction in Model.Transactions.OrderByDescending(x => x.Date))
         {
-            <tr>
-                <td>@transaction.Date</td>
-                <td>@transaction.Correspondent.UserName</td>
-                <td>@transaction.Amount</td>
-                <td>@transaction.UserBalance</td>
-            </tr>
+    <tr>
+        <td>@transaction.Date</td>
+        <td>@transaction.Correspondent.UserName</td>
+        <td>@transaction.Amount</td>
+        <td>@transaction.UserBalance</td>
+        <td>
+            @if (transaction.Type == TransactionType.Debit)
+            {
+                <a asp-action="CreateTransaction" asp-controller="Transaction" asp-route-id="@transaction.Id">Repeat</a>
+            }
+        </td>
+    </tr>
         }
         </table>
 

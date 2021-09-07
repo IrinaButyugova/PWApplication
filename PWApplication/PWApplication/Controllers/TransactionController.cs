@@ -21,9 +21,15 @@ namespace PWApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateTransaction()
+        public IActionResult CreateTransaction(int? id)
         {
             var model = new CreateTransactionViewModel();
+            if (id.HasValue)
+            {
+                var transaction = _exchangeService.GetTransaction(id.Value);
+                model.Amount = transaction.Amount;
+                model.RecipientName = transaction.Correspondent.UserName;
+            }
             model.Users = GetUserList();
             return View(model);
         }
