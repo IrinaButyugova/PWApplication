@@ -13,11 +13,13 @@ namespace PWApplication.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IExchange _exchangeService;
+        private readonly ITransaction _transactionService;
 
-        public TransactionController(UserManager<User> userManager, IExchange exchangeService)
+        public TransactionController(UserManager<User> userManager, IExchange exchangeService, ITransaction transactionService)
         {
             _userManager = userManager;
             _exchangeService = exchangeService;
+            _transactionService = transactionService;
         }
 
         [HttpGet]
@@ -26,7 +28,7 @@ namespace PWApplication.Controllers
             var model = new CreateTransactionViewModel();
             if (id.HasValue)
             {
-                var transaction = _exchangeService.GetTransaction(id.Value);
+                var transaction = _transactionService.GetTransaction(id.Value);
                 model.Amount = transaction.Amount;
                 model.RecipientName = transaction.Correspondent.UserName;
             }

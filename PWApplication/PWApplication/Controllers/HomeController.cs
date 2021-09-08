@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PWApplication.Enums;
 using PWApplication.Models;
 using PWApplication.Services;
+using PWApplication.ViewModels;
+using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace PWApplication.Controllers
 {
@@ -13,22 +15,46 @@ namespace PWApplication.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly IAccount _accountService;
+        private readonly ITransaction _transactionService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, IAccount accountService)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, IAccount accountService, 
+            ITransaction transactionService)
         {
             _logger = logger;
             _userManager = userManager;
             _accountService = accountService;
+            _transactionService = transactionService;
         }
 
-        public IActionResult IndexAsync()
+        public IActionResult IndexAsync(DateTime? startDate, DateTime? endDate, string correspondentName, decimal? startAmount,
+            decimal? endAmount, SortState sortOrder = SortState.DateDesc)
         {
             if (User.Identity.IsAuthenticated)
             {
-                var user = _accountService.GetUser(User.Identity.Name);
+                var userName = User.Identity.Name;
+                var user = _accountService.GetUser(userName);
                 if (user != null)
                 {
-                    return View(user);
+                    var transactions = _transactionService.GetTransactions(userName, startDate, endDate, correspondentName,
+                        startAmount, endAmount, sortOrder);
+                    var filterViewModel = new FilterViewModel
+                    {
+                        StartDate = startDate,
+                        EndDate = endDate,
+                        CorrespondentName = correspondentName,
+                        StartAmount = startAmount,
+                        EndAmount = endAmount
+                    };
+                    IndexViewModel viewModel = new IndexViewModel
+                    {
+                        Name = user.UserName,
+                        Balance = user.Balance,
+                        Transactions = transactions,
+                        FilterViewModel = filterViewModel,
+                        SortViewModel = new SortViewModel(sortOrder),
+                    };
+
+                    return View(viewModel);
                 }
             }
             

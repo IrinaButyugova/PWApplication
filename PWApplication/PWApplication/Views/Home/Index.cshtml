@@ -1,58 +1,116 @@
-﻿@model PWApplication.Models.User
+﻿@model PWApplication.ViewModels.IndexViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
+@addTagHelper *, PWApplication
 
+    @if (Model != null)
+    {
+        <form method="get">
+            <p>@Model.Name</p>
+            <p>PW balance: @Model.Balance</p>
 
-@if (Model != null)
-{
-    <p>@Model.UserName</p>
-    <p>PW balance: @Model.Balance</p>
+            <div class="form-group">
+                <a class="btn btn-primary" asp-controller="Transaction" asp-action="CreateTransaction">Create transaction</a>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Start date</label>
+                    <input type="datetime-local" name="startDate" value="@Model.FilterViewModel.StartDate?.ToString("yyyy-MM-ddThh:mm")" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">End date</label>
+                    <input type="datetime-local" name="endDate" value="@Model.FilterViewModel.EndDate?.ToString("yyyy-MM-ddThh:mm")" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Correspondent Name</label>
+                    <input type="text" name="correspondentName" value="@Model.FilterViewModel.CorrespondentName" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Start amount</label>
+                    <input type="number" name="startAmount" value="@Model.FilterViewModel.StartAmount" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">End amount</label>
+                    <input type="number" name="endAmount" value="@Model.FilterViewModel.EndAmount" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="Filter" />
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                     current="@Model.SortViewModel.Current"
+                                     page-url-startDate="@Model.FilterViewModel.StartDate"
+                                     page-url-endDate="@Model.FilterViewModel.EndDate"
+                                     page-url-correspondentName="@Model.FilterViewModel.CorrespondentName"
+                                     page-url-startAmount="@Model.FilterViewModel.StartAmount"
+                                     page-url-endAmount="@Model.FilterViewModel.EndAmount"
+                                     page-url-sortorder="@Model.SortViewModel.DateSort.ToString()">
+                            Date
+                        </sort-header>
 
-    <div class="form-group">
-        <a class="btn btn-primary" asp-controller="Transaction" asp-action="CreateTransaction">Create transaction</a>
-    </div>
-    <table class="table">
-        <tr>
-            <th>
-                Date
-            </th>
-            <th>
-                Correspondent name
-            </th>
-            <th>
-                Amount
-            </th>
-            <th>
-                Balance
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var transaction in Model.Transactions.OrderByDescending(x => x.Date))
-        {
-    <tr>
-        <td>@transaction.Date</td>
-        <td>@transaction.Correspondent.UserName</td>
-        <td>@transaction.Amount</td>
-        <td>@transaction.UserBalance</td>
-        <td>
-            @if (transaction.Type == TransactionType.Debit)
-            {
-                <a asp-action="CreateTransaction" asp-controller="Transaction" asp-route-id="@transaction.Id">Repeat</a>
-            }
-        </td>
-    </tr>
-        }
-        </table>
-
+                    </th>
+                    <th>
+                        <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                     current="@Model.SortViewModel.Current"
+                                     page-url-startDate="@Model.FilterViewModel.StartDate"
+                                     page-url-endDate="@Model.FilterViewModel.EndDate"
+                                     page-url-correspondentName="@Model.FilterViewModel.CorrespondentName"
+                                     page-url-startAmount="@Model.FilterViewModel.StartAmount"
+                                     page-url-endAmount="@Model.FilterViewModel.EndAmount"
+                                     page-url-sortorder="@Model.SortViewModel.CorrespondentNameSort.ToString()">
+                            Correspondent name
+                        </sort-header>
+                    </th>
+                    <th>
+                        <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                     current="@Model.SortViewModel.Current"
+                                     page-url-startDate="@Model.FilterViewModel.StartDate"
+                                     page-url-endDate="@Model.FilterViewModel.EndDate"
+                                     page-url-correspondentName="@Model.FilterViewModel.CorrespondentName"
+                                     page-url-startAmount="@Model.FilterViewModel.StartAmount"
+                                     page-url-endAmount="@Model.FilterViewModel.EndAmount"
+                                     page-url-sortorder="@Model.SortViewModel.AmountSort.ToString()">
+                            Amount
+                        </sort-header>
+                    </th>
+                    <th>
+                        Balance
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var transaction in Model.Transactions)
+                {
+                    <tr>
+                        <td>@transaction.Date</td>
+                        <td>@transaction.Correspondent.UserName</td>
+                        <td>@transaction.Amount</td>
+                        <td>@transaction.UserBalance</td>
+                        <td>
+                            @if (transaction.Type == TransactionType.Debit)
+                            {
+                                <a asp-action="CreateTransaction" asp-controller="Transaction" asp-route-id="@transaction.Id">Repeat</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </form>
         <form method="post" asp-controller="Account" asp-action="Logout">
             <div>
                 <input class="btn btn-primary" type="submit" value="Выход" />
             </div>
         </form>
-        }
-        else
-        {
+    }
+    else
+    {
         <a asp-controller="Account" asp-action="Login">Вход</a>
         <a asp-controller="Account" asp-action="Register">Регистрация</a>
-        }
+    }
