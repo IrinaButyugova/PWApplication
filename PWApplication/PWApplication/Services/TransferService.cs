@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace PWApplication.Services
 {
-    public class ExchangeService : IExchange
+    public class TransferService : ITransferService
     {
         private readonly ApplicationContext _appContext;
 
-        public ExchangeService(ApplicationContext appContext)
+        public TransferService(ApplicationContext appContext)
         {
             _appContext = appContext;
         }

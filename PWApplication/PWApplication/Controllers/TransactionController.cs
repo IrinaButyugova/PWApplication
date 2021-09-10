@@ -12,10 +12,10 @@ namespace PWApplication.Controllers
     public class TransactionController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly IExchange _exchangeService;
-        private readonly ITransaction _transactionService;
+        private readonly ITransferService _exchangeService;
+        private readonly ITransactionService _transactionService;
 
-        public TransactionController(UserManager<User> userManager, IExchange exchangeService, ITransaction transactionService)
+        public TransactionController(UserManager<User> userManager, ITransferService exchangeService, ITransactionService transactionService)
         {
             _userManager = userManager;
             _exchangeService = exchangeService;

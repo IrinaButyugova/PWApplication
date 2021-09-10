@@ -14,11 +14,11 @@ namespace PWApplication.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
-        private readonly IAccount _accountService;
-        private readonly ITransaction _transactionService;
+        private readonly IAccountService _accountService;
+        private readonly ITransactionService _transactionService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, IAccount accountService, 
-            ITransaction transactionService)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, IAccountService accountService, 
+            ITransactionService transactionService)
         {
             _logger = logger;
             _userManager = userManager;

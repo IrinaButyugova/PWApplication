@@ -32,9 +32,9 @@ namespace PWApplication
                 .AddEntityFrameworkStores<ApplicationContext>();
 
             services.Configure<SettingsOptions>(Configuration.GetSection("Settings"));
-            services.AddScoped<IAccount, AccountService>();
-            services.AddScoped<IExchange, ExchangeService>();
-            services.AddScoped<ITransaction, TransactionService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITransferService, TransferService>();
+            services.AddScoped<ITransactionService, TransactionService>();
 
             services.AddControllersWithViews();
         }

@@ -15,10 +15,10 @@ namespace PWApplication.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly SettingsOptions _settingsOptions;
-        private readonly IExchange _exchangeService;
+        private readonly ITransferService _exchangeService;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IOptions<SettingsOptions> settingsOptionsProvider, IExchange exchangeService)
+            IOptions<SettingsOptions> settingsOptionsProvider, ITransferService exchangeService)
         {
             _userManager = userManager;
             _signInManager = signInManager;

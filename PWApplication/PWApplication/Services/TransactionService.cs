@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace PWApplication.Services
 {
-    public class TransactionService : ITransaction
+    public class TransactionService : ITransactionService
     {
         private readonly ApplicationContext _appContext;
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PWApplication.Services
 {
-    public class AccountService : IAccount
+    public class AccountService : IAccountService
     {
         private readonly ApplicationContext _appContext;
 

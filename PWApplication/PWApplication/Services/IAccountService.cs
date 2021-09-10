@@ -2,7 +2,7 @@
 
 namespace PWApplication.Services
 {
-    public interface IAccount
+    public interface IAccountService
     {
         User GetUser(string userName);
     }

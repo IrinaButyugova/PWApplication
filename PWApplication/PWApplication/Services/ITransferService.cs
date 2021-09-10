@@ -1,6 +1,6 @@
 ﻿namespace PWApplication.Services
 {
-    public interface IExchange
+    public interface ITransferService
     {
         void IncreaseBalance(string id, decimal amount);
 

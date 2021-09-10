@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PWApplication.Services
 {
-    public interface ITransaction
+    public interface ITransactionService
     {
         Transaction GetTransaction(int id);
 
