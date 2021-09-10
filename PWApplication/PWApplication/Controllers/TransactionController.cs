@@ -1,23 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PWApplication.Models;
 using PWApplication.Services;
 using PWApplication.ViewModels;
 using System;
-using System.Linq;
 
 namespace PWApplication.Controllers
 {
     public class TransactionController : Controller
     {
-        private readonly UserManager<User> _userManager;
+        private readonly IAccountService _accountService;
         private readonly ITransferService _exchangeService;
         private readonly ITransactionService _transactionService;
 
-        public TransactionController(UserManager<User> userManager, ITransferService exchangeService, ITransactionService transactionService)
+        public TransactionController(IAccountService accountService, ITransferService exchangeService, ITransactionService transactionService)
         {
-            _userManager = userManager;
+            _accountService = accountService;
             _exchangeService = exchangeService;
             _transactionService = transactionService;
         }
@@ -63,10 +60,7 @@ namespace PWApplication.Controllers
 
         private SelectList GetUserList()
         {
-           return new SelectList(_userManager.Users
-                .Where(x => x.UserName != User.Identity.Name)
-                .Select(x => x.UserName)
-                .ToList());
+           return new SelectList(_accountService.GetOtherUsersNames(User.Identity.Name));
         }
     }
 }

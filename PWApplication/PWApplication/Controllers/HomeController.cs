@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PWApplication.Enums;
 using PWApplication.Models;
@@ -13,15 +12,13 @@ namespace PWApplication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly UserManager<User> _userManager;
         private readonly IAccountService _accountService;
         private readonly ITransactionService _transactionService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, IAccountService accountService, 
+        public HomeController(ILogger<HomeController> logger, IAccountService accountService, 
             ITransactionService transactionService)
         {
             _logger = logger;
-            _userManager = userManager;
             _accountService = accountService;
             _transactionService = transactionService;
         }

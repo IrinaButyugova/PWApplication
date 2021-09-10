@@ -1,29 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
 using PWApplication.Models;
-using PWApplication.Options;
 using PWApplication.Services;
 using PWApplication.ViewModels;
-using System;
 using System.Threading.Tasks;
 
 namespace PWApplication.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly SettingsOptions _settingsOptions;
-        private readonly ITransferService _exchangeService;
+        private readonly IAccountService _accountService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IOptions<SettingsOptions> settingsOptionsProvider, ITransferService exchangeService)
+        public AccountController(IAccountService accountService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _settingsOptions = settingsOptionsProvider.Value;
-            _exchangeService = exchangeService;
+            _accountService = accountService;
         }
 
         [HttpGet]
@@ -37,12 +26,11 @@ namespace PWApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { UserName = model.Name, Email = model.Email};
-                var result = await _userManager.CreateAsync(user, model.Password);
+                User user = new User { UserName = model.Name, Email = model.Email };
+                var result = await _accountService.Register(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    _exchangeService.IncreaseBalance(user.Id, _settingsOptions.RegistrationAward);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -70,27 +58,14 @@ namespace PWApplication.Controllers
             {
                 try
                 {
-                    var user = await _userManager.FindByEmailAsync(model.Email);
-                    if (user == null)
-                    {
-                        throw new Exception();
-                    }
-
-                    var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        throw new Exception();
-                    }
+                    await _accountService.Login(model.Email, model.Password);
+                    return RedirectToAction("Index", "Home");
                 }
                 catch
                 {
                     ModelState.AddModelError("", "Uncorrect email and (or) password");
                 }
-                
+
             }
             return View(model);
         }
@@ -99,7 +74,7 @@ namespace PWApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _accountService.Logout();
             return RedirectToAction("Index", "Home");
         }
     }
