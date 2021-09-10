@@ -9,13 +9,13 @@ namespace PWApplication.Controllers
     public class TransactionController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly ITransferService _exchangeService;
+        private readonly ITransferService _transferService;
         private readonly ITransactionService _transactionService;
 
-        public TransactionController(IAccountService accountService, ITransferService exchangeService, ITransactionService transactionService)
+        public TransactionController(IAccountService accountService, ITransferService transferService, ITransactionService transactionService)
         {
             _accountService = accountService;
-            _exchangeService = exchangeService;
+            _transferService = transferService;
             _transactionService = transactionService;
         }
 
@@ -46,7 +46,7 @@ namespace PWApplication.Controllers
                     }
 
                     var userName = User.Identity.Name;
-                    _exchangeService.CreateTransaction(userName, model.RecipientName, model.Amount);
+                    _transferService.CreateTransaction(userName, model.RecipientName, model.Amount);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception e)
