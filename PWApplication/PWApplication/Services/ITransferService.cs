@@ -1,9 +1,11 @@
-﻿namespace PWApplication.Services
+﻿using PWApplication.Result;
+
+namespace PWApplication.Services
 {
     public interface ITransferService
     {
         void IncreaseBalance(string id, decimal amount);
 
-        void CreateTransaction(string userName, string recipientName, decimal amount);
+        PWResult CreateTransaction(string userName, string recipientName, decimal amount);
     }
 }

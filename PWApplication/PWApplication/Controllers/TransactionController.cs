@@ -42,16 +42,26 @@ namespace PWApplication.Controllers
                 {
                     if (model.Amount == 0)
                     {
-                        throw new Exception("Amount must be > 0");
+                        throw new Exception("Amount should be greater than zero");
                     }
 
                     var userName = User.Identity.Name;
-                    _transferService.CreateTransaction(userName, model.RecipientName, model.Amount);
-                    return RedirectToAction("Index", "Home");
+                    var result = _transferService.CreateTransaction(userName, model.RecipientName, model.Amount);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("", e.Message);
+                    ModelState.AddModelError(string.Empty, e.Message);
                 }
             }
             model.Users = GetUserList();

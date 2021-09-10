@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using PWApplication.Errors;
 using PWApplication.Models;
 using PWApplication.Options;
+using PWApplication.Result;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,30 +47,61 @@ namespace PWApplication.Services
                 .ToList();
         }
 
-        public async Task<IdentityResult> Register(User user, string password)
+        public async Task<PWResult> Register(User user, string password)
         {
-            var result = await _userManager.CreateAsync(user, password);
-            if (result.Succeeded)
+            var result = new PWResult();
+
+            var createResult = await _userManager.CreateAsync(user, password);
+            if (createResult.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
                 _transferService.IncreaseBalance(user.Id, _settingsOptions.RegistrationAward);
+                result.Succeeded = true;
             }
-
+            else
+            {
+                foreach (var error in createResult.Errors)
+                {
+                    result.Errors.Add(new Error 
+                    { 
+                        Code = error.Code, 
+                        Description = error.Description 
+                    });
+                }
+            }
+            
             return result;
         }
-        public async Task Login(string email, string password)
+
+        public async Task<PWResult> Login(string email, string password)
         {
+            var result = new PWResult();
+
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                throw new Exception();
+                result.Errors.Add(new Error 
+                { 
+                    Code = ErrorCodes.USER_NOT_FOUND, 
+                    Description = "User with provided Email doesn't exist" 
+                });
+                return result;
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, password, false, false);
-            if (!result.Succeeded)
+            var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, password, false, false);
+            if (signInResult.Succeeded)
             {
-                throw new Exception();
+                result.Succeeded = true;
             }
+            else
+            {
+                result.Errors.Add(new Error
+                {
+                    Code = ErrorCodes.WRONG_PASSWORD,
+                    Description = "Password is wrong"
+                });
+            }
+            return result;
         }
 
         public async Task Logout()

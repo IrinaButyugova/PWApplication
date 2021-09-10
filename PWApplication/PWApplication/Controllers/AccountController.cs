@@ -56,16 +56,18 @@ namespace PWApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var result = await _accountService.Login(model.Email, model.Password);
+                if (result.Succeeded)
                 {
-                    await _accountService.Login(model.Email, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
-                catch
+                else
                 {
-                    ModelState.AddModelError("", "Uncorrect email and (or) password");
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
-
             }
             return View(model);
         }
