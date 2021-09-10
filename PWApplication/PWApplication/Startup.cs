@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PWApplication.Models;
 using PWApplication.Options;
+using PWApplication.Repositories;
 using PWApplication.Services;
 
 namespace PWApplication
@@ -35,6 +36,9 @@ namespace PWApplication
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransferService, TransferService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IRepository<User>, UserRepository>();
+            services.AddScoped<IRepository<Transaction>, TransactionRepository>();
+            services.AddScoped<IRepositoryService, RepositoryService>();
 
             services.AddControllersWithViews();
         }

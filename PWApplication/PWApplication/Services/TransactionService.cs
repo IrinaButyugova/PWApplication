@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PWApplication.Enums;
+﻿using PWApplication.Enums;
 using PWApplication.Models;
+using PWApplication.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,28 +9,22 @@ namespace PWApplication.Services
 {
     public class TransactionService : ITransactionService
     {
-        private readonly ApplicationContext _appContext;
+        private readonly IRepositoryService _repositoryService;
 
-        public TransactionService(ApplicationContext appContext)
+        public TransactionService(IRepositoryService repositoryService)
         {
-            _appContext = appContext;
+            _repositoryService = repositoryService;
         }
 
         public Transaction GetTransaction(int id)
         {
-            return _appContext.Transactions
-                .Include(x => x.Correspondent)
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
+            return _repositoryService.Transactions.Get(id);
         }
 
         public List<Transaction> GetTransactions(string userName, DateTime? startDate, DateTime? endDate, 
             string correspondentName, decimal? startAmount, decimal? endAmount, SortState sortOrder)
         {
-            var transactions = _appContext.Transactions
-                .Include(x => x.User)
-                .Include(x => x.Correspondent)
-                .Where(x => x.User.UserName == userName);
+            var transactions = _repositoryService.Transactions.GetAllByUserName(userName);
 
             if (startDate.HasValue)
             {

@@ -1,34 +1,32 @@
 ﻿using PWApplication.Errors;
 using PWApplication.Models;
+using PWApplication.Repositories;
 using PWApplication.Result;
 using System;
-using System.Linq;
 
 namespace PWApplication.Services
 {
     public class TransferService : ITransferService
     {
-        private readonly ApplicationContext _appContext;
+        private readonly IRepositoryService _repositoryService;
 
-        public TransferService(ApplicationContext appContext)
+        public TransferService(IRepositoryService repositoryService)
         {
-            _appContext = appContext;
+            _repositoryService = repositoryService;
         }
 
         public void IncreaseBalance(string id, decimal amount)
         {
-            var user = _appContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            var user = _repositoryService.Users.Get(id);
             user.Balance += amount;
-            _appContext.SaveChanges();
+            _repositoryService.Save();
         }
 
         public PWResult CreateTransaction(string userName, string recipientName, decimal amount)
         {
             var result = new PWResult();
 
-            var user = _appContext.Users
-                .Where(x => x.UserName == userName)
-                .FirstOrDefault();
+            var user = _repositoryService.Users.GetByUserName(userName);
             if (user.Balance < amount)
             {
                 result.Errors.Add(new Error
@@ -40,9 +38,7 @@ namespace PWApplication.Services
             }
 
             user.Balance = user.Balance - amount;
-            var recipient = _appContext.Users
-                .Where(x => x.UserName == recipientName)
-                .FirstOrDefault();
+            var recipient = _repositoryService.Users.GetByUserName(recipientName);
             recipient.Balance += amount;
 
             var currentUserTransaction = new Transaction()
@@ -64,9 +60,9 @@ namespace PWApplication.Services
                 User = recipient,
                 Correspondent = user
             };
-            _appContext.Transactions.AddRange(currentUserTransaction, recipientTransaction);
+            _repositoryService.Transactions.AddRange(currentUserTransaction, recipientTransaction);
 
-            _appContext.SaveChanges();
+            _repositoryService.Save();
 
             result.Succeeded = true;
             return result;
