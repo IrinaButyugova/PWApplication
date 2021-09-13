@@ -14,8 +14,6 @@ namespace PWApplication.TagHelpers
 
         public string Action { get; set; }
 
-        public bool Up { get; set; } 
-
         private IUrlHelperFactory urlHelperFactory;
         public SortHeaderTagHelper(IUrlHelperFactory helperFactory)
         {
@@ -36,12 +34,13 @@ namespace PWApplication.TagHelpers
             string url = urlHelper.Action(Action, PageUrlValues);
             output.Attributes.SetAttribute("href", url);
            
-            if (Current.ToString() == PageUrlValues["sortorder"].ToString())
+            if (Current.ToString().StartsWith(PageUrlValues["sortorder"].ToString().Substring(0,4)))
             {
                 TagBuilder tag = new TagBuilder("i");
                 tag.AddCssClass("glyphicon");
 
-                if (Up == true)
+                if (Current == SortState.AmountAsc || Current == SortState.CorrespondentNameAsc || 
+                    Current ==  SortState.DateAsc)
                 {
                     tag.AddCssClass("glyphicon-chevron-up");
                 } 

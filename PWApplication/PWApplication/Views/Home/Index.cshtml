@@ -1,4 +1,5 @@
 ﻿@model PWApplication.ViewModels.IndexViewModel
+@using PWApplication.BLL.Enums
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -45,39 +46,39 @@
             <table class="table">
                 <tr>
                     <th>
-                        <sort-header action="Index" up="@Model.SortViewModel.Up"
-                                     current="@Model.SortViewModel.Current"
+                        <sort-header action="Index"
+                                     current="@Model.CurrentSort"
                                      page-url-startDate="@Model.FilterViewModel.StartDate"
                                      page-url-endDate="@Model.FilterViewModel.EndDate"
                                      page-url-correspondentName="@Model.FilterViewModel.CorrespondentName"
                                      page-url-startAmount="@Model.FilterViewModel.StartAmount"
                                      page-url-endAmount="@Model.FilterViewModel.EndAmount"
-                                     page-url-sortorder="@Model.SortViewModel.DateSort.ToString()">
+                                     page-url-sortorder="@Model.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc">
                             Date
                         </sort-header>
 
                     </th>
                     <th>
-                        <sort-header action="Index" up="@Model.SortViewModel.Up"
-                                     current="@Model.SortViewModel.Current"
+                        <sort-header action="Index"
+                                     current="@Model.CurrentSort"
                                      page-url-startDate="@Model.FilterViewModel.StartDate"
                                      page-url-endDate="@Model.FilterViewModel.EndDate"
                                      page-url-correspondentName="@Model.FilterViewModel.CorrespondentName"
                                      page-url-startAmount="@Model.FilterViewModel.StartAmount"
                                      page-url-endAmount="@Model.FilterViewModel.EndAmount"
-                                     page-url-sortorder="@Model.SortViewModel.CorrespondentNameSort.ToString()">
+                                     page-url-sortorder="@Model.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc">
                             Correspondent name
                         </sort-header>
                     </th>
                     <th>
-                        <sort-header action="Index" up="@Model.SortViewModel.Up"
-                                     current="@Model.SortViewModel.Current"
+                        <sort-header action="Index"
+                                     current="@Model.CurrentSort"
                                      page-url-startDate="@Model.FilterViewModel.StartDate"
                                      page-url-endDate="@Model.FilterViewModel.EndDate"
                                      page-url-correspondentName="@Model.FilterViewModel.CorrespondentName"
                                      page-url-startAmount="@Model.FilterViewModel.StartAmount"
                                      page-url-endAmount="@Model.FilterViewModel.EndAmount"
-                                     page-url-sortorder="@Model.SortViewModel.AmountSort.ToString()">
+                                     page-url-sortorder="@Model.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc">
                             Amount
                         </sort-header>
                     </th>

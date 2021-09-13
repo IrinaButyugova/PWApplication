@@ -1,4 +1,5 @@
-﻿using PWApplication.Domain.Models;
+﻿using PWApplication.BLL.Enums;
+using PWApplication.Domain.Models;
 using System.Collections.Generic;
 
 namespace PWApplication.ViewModels
@@ -13,6 +14,6 @@ namespace PWApplication.ViewModels
 
         public FilterViewModel FilterViewModel { get; set; }
 
-        public SortViewModel SortViewModel { get; set; }
+        public SortState CurrentSort { get; set; }
     }
 }

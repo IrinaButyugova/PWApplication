@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using PWApplication.BLL.Enums;
 using PWApplication.BLL.Services;
-using PWApplication.Domain.Models;
 using PWApplication.ViewModels;
 using System;
 using System.Diagnostics;
@@ -48,7 +47,7 @@ namespace PWApplication.Controllers
                         Balance = user.Balance,
                         Transactions = transactions,
                         FilterViewModel = filterViewModel,
-                        SortViewModel = new SortViewModel(sortOrder),
+                        CurrentSort = sortOrder
                     };
 
                     return View(viewModel);
