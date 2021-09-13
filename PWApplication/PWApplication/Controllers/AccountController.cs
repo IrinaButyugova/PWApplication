@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using PWApplication.BLL.Services;
 using PWApplication.Domain.Models;
 using PWApplication.ViewModels;
@@ -26,7 +27,10 @@ namespace PWApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { UserName = model.Name, Email = model.Email };
+                var mapperConfig = new MapperConfiguration(cfg => cfg.CreateMap<RegisterViewModel, User>()
+                    .ForMember("UserName", opt => opt.MapFrom(x => x.Name)));
+                var mapper = new Mapper(mapperConfig);
+                User user = mapper.Map<RegisterViewModel, User>(model);
                 var result = await _accountService.Register(user, model.Password);
 
                 if (result.Succeeded)
