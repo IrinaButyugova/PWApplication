@@ -1,4 +1,4 @@
-﻿using PWApplication.Enums;
+﻿using PWApplication.BLL.Enums;
 
 namespace PWApplication.ViewModels
 {

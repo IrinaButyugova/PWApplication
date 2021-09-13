@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PWApplication.Models;
-using PWApplication.Services;
+using PWApplication.BLL.Services;
+using PWApplication.Domain.Models;
 using PWApplication.ViewModels;
 using System.Threading.Tasks;
 

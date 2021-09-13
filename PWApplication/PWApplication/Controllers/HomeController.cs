@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PWApplication.Enums;
-using PWApplication.Models;
-using PWApplication.Services;
+using PWApplication.BLL.Enums;
+using PWApplication.BLL.Services;
+using PWApplication.Domain.Models;
 using PWApplication.ViewModels;
 using System;
 using System.Diagnostics;

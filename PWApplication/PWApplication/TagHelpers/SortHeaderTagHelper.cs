@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections.Generic;
-using PWApplication.Enums;
+using PWApplication.BLL.Enums;
 
 namespace PWApplication.TagHelpers
 {

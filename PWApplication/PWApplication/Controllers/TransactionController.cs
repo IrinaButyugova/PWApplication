@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PWApplication.Services;
+using PWApplication.BLL.Services;
 using PWApplication.ViewModels;
 using System;
 

@@ -1,4 +1,4 @@
-﻿using PWApplication.Models;
+﻿using PWApplication.Domain.Models;
 using System.Collections.Generic;
 
 namespace PWApplication.ViewModels

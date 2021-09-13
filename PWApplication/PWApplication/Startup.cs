@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PWApplication.Models;
-using PWApplication.Options;
-using PWApplication.Repositories;
-using PWApplication.Services;
+using PWApplication.BLL.Services;
+using PWApplication.DAL.Data;
+using PWApplication.DAL.Repositories;
+using PWApplication.Domain.Models;
+using PWApplication.Domain.Options;
 
 namespace PWApplication
 {

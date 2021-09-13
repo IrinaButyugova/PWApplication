@@ -1,0 +1,14 @@
+C:\git\PWApplication\PWApplication\PWApplication.BLL\obj\Debug\netcoreapp3.1\PWApplication.BLL.csproj.AssemblyReference.cache
+C:\git\PWApplication\PWApplication\PWApplication.BLL\obj\Debug\netcoreapp3.1\PWApplication.BLL.AssemblyInfoInputs.cache
+C:\git\PWApplication\PWApplication\PWApplication.BLL\obj\Debug\netcoreapp3.1\PWApplication.BLL.AssemblyInfo.cs
+C:\git\PWApplication\PWApplication\PWApplication.BLL\obj\Debug\netcoreapp3.1\PWApplication.BLL.csproj.CoreCompileInputs.cache
+C:\git\PWApplication\PWApplication\PWApplication.BLL\bin\Debug\netcoreapp3.1\PWApplication.BLL.deps.json
+C:\git\PWApplication\PWApplication\PWApplication.BLL\bin\Debug\netcoreapp3.1\PWApplication.BLL.dll
+C:\git\PWApplication\PWApplication\PWApplication.BLL\bin\Debug\netcoreapp3.1\PWApplication.BLL.pdb
+C:\git\PWApplication\PWApplication\PWApplication.BLL\bin\Debug\netcoreapp3.1\PWApplication.DAL.dll
+C:\git\PWApplication\PWApplication\PWApplication.BLL\bin\Debug\netcoreapp3.1\PWApplication.Domain.dll
+C:\git\PWApplication\PWApplication\PWApplication.BLL\bin\Debug\netcoreapp3.1\PWApplication.DAL.pdb
+C:\git\PWApplication\PWApplication\PWApplication.BLL\bin\Debug\netcoreapp3.1\PWApplication.Domain.pdb
+C:\git\PWApplication\PWApplication\PWApplication.BLL\obj\Debug\netcoreapp3.1\PWApplication.BLL.csproj.CopyComplete
+C:\git\PWApplication\PWApplication\PWApplication.BLL\obj\Debug\netcoreapp3.1\PWApplication.BLL.dll
+C:\git\PWApplication\PWApplication\PWApplication.BLL\obj\Debug\netcoreapp3.1\PWApplication.BLL.pdb
