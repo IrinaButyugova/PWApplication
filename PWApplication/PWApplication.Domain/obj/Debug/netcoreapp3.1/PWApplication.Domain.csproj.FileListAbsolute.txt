@@ -1,9 +1,0 @@
-C:\git\PWApplication\PWApplication\PWApplication.Domain\bin\Debug\netcoreapp3.1\PWApplication.Domain.deps.json
-C:\git\PWApplication\PWApplication\PWApplication.Domain\bin\Debug\netcoreapp3.1\PWApplication.Domain.dll
-C:\git\PWApplication\PWApplication\PWApplication.Domain\bin\Debug\netcoreapp3.1\PWApplication.Domain.pdb
-C:\git\PWApplication\PWApplication\PWApplication.Domain\obj\Debug\netcoreapp3.1\PWApplication.Domain.csproj.AssemblyReference.cache
-C:\git\PWApplication\PWApplication\PWApplication.Domain\obj\Debug\netcoreapp3.1\PWApplication.Domain.AssemblyInfoInputs.cache
-C:\git\PWApplication\PWApplication\PWApplication.Domain\obj\Debug\netcoreapp3.1\PWApplication.Domain.AssemblyInfo.cs
-C:\git\PWApplication\PWApplication\PWApplication.Domain\obj\Debug\netcoreapp3.1\PWApplication.Domain.csproj.CoreCompileInputs.cache
-C:\git\PWApplication\PWApplication\PWApplication.Domain\obj\Debug\netcoreapp3.1\PWApplication.Domain.dll
-C:\git\PWApplication\PWApplication\PWApplication.Domain\obj\Debug\netcoreapp3.1\PWApplication.Domain.pdb
