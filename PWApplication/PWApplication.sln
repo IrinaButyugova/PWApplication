@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31410.357
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWApplication", "PWApplication\PWApplication.csproj", "{82F46658-3E98-4A64-B6FE-651D450670F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWApplication.BLL", "PWApplication.BLL\PWApplication.BLL.csproj", "{DD71B05F-0474-470C-814E-3A9AC0C86137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWApplication.BLL", "PWApplication.BLL\PWApplication.BLL.csproj", "{DD71B05F-0474-470C-814E-3A9AC0C86137}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWApplication.DAL", "PWApplication.DAL\PWApplication.DAL.csproj", "{B5AA8AAC-5D89-4064-8D55-2353FC35DB13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWApplication.DAL", "PWApplication.DAL\PWApplication.DAL.csproj", "{B5AA8AAC-5D89-4064-8D55-2353FC35DB13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWApplication.Domain", "PWApplication.Domain\PWApplication.Domain.csproj", "{7ECFFF35-569D-4F97-B6F5-7B89756505A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWApplication.Domain", "PWApplication.Domain\PWApplication.Domain.csproj", "{7ECFFF35-569D-4F97-B6F5-7B89756505A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWBlazorApplication", "PWBlazorApplication\PWBlazorApplication.csproj", "{BF655929-9FA1-4824-AC7B-89666A330451}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7ECFFF35-569D-4F97-B6F5-7B89756505A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ECFFF35-569D-4F97-B6F5-7B89756505A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ECFFF35-569D-4F97-B6F5-7B89756505A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF655929-9FA1-4824-AC7B-89666A330451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF655929-9FA1-4824-AC7B-89666A330451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF655929-9FA1-4824-AC7B-89666A330451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF655929-9FA1-4824-AC7B-89666A330451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,29 @@
+﻿@page "/"
+
+@using Microsoft.AspNetCore.Components.Routing
+
+<style>
+    a {
+        color: #00897B;
+    }
+
+        a.active {
+            color: #004D40;
+            font-weight: 700;
+        }
+</style>
+
+<div>
+    <div>
+        <NavLink href="/">Home</NavLink> | 
+        <NavLink href="login">Login</NavLink> | 
+        <NavLink href="register">Registration</NavLink>
+    </div>
+    <div>
+         
+    </div>
+</div>
+
+@code {
+
+}
