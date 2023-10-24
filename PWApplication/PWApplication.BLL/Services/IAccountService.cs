@@ -1,4 +1,5 @@
-﻿using PWApplication.BLL.Result;
+﻿using Microsoft.AspNetCore.Identity;
+using PWApplication.BLL.Result;
 using PWApplication.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,5 +17,8 @@ namespace PWApplication.BLL.Services
         Task<PWResult> Login(string email, string password);
 
         Task Logout();
+        Task<User> FindByEmail(string email);
+        Task<bool> CanSignIn(User user);
+        Task<SignInResult> CheckPasswordSignIn(User user, string password);
     }
 }

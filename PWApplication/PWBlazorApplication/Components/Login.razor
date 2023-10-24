@@ -1,0 +1,80 @@
+﻿@page "/login"
+
+@using System.Threading;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.AspNetCore.Identity;
+@using PWBlazorApplication.Models;
+@using PWApplication.BLL.Services;
+@using PWApplication.BLL.Errors;
+
+@inject IAccountService _accountService;
+@inject NavigationManager _navigation;
+
+<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        Email:<br />
+        <InputText id="email" @bind-Value="loginModel.Email" />
+    </p>
+    <p>
+        Password:<br />
+        <InputText id="password" @bind-Value="loginModel.Password" />
+    </p>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+    private EditContext? editContext;
+    private ValidationMessageStore? messageStore;
+
+    protected override void OnInitialized()
+    {
+        editContext = new(loginModel);
+        messageStore = new(editContext);
+    }
+
+    private async void ValidSubmit()
+    {
+        messageStore.Clear();
+
+        if (editContext == null || !editContext.Validate())
+        {
+            return;
+        }
+
+        var user = await _accountService.FindByEmail(loginModel.Email);
+        if (user != null)
+        {
+            if (await _accountService.CanSignIn(user))
+            {
+                var checkResult = await _accountService.CheckPasswordSignIn(user, loginModel.Password);
+                if (checkResult == SignInResult.Success)
+                {
+                    Guid key = Guid.NewGuid();
+                    BlazorCookieLoginMiddleware.Logins[key] = loginModel;
+                    _navigation.NavigateTo($"/login?key={key}", true);
+                }
+                else
+                {
+                    messageStore.Add(() => loginModel.Password, "Login failed. Check your password");
+                }
+            }
+            else
+            {
+                messageStore.Add(() => loginModel.Email, "Your account is blocked");
+            }
+        }
+        else
+        {
+            messageStore.Add(() => loginModel.Email, "User not found");
+        }
+
+        if (editContext.GetValidationMessages().Count() > 0)
+        {
+            editContext.NotifyValidationStateChanged();
+        }
+    }
+}

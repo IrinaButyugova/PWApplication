@@ -1,6 +1,13 @@
 ﻿@page "/"
 
-@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Components.Routing;
+@using Microsoft.AspNetCore.Components.Authorization;
+@using Microsoft.AspNetCore.Components.Web
+@using PWApplication.BLL.Services;
+@using PWApplication.Domain.Models;
+@inject NavigationManager _navigation;
+
 
 <style>
     a {
@@ -13,17 +20,26 @@
         }
 </style>
 
-<div>
-    <div>
-        <NavLink href="/">Home</NavLink> | 
-        <NavLink href="login">Login</NavLink> | 
-        <NavLink href="register">Registration</NavLink>
-    </div>
-    <div>
-         
-    </div>
-</div>
+<CascadingAuthenticationState>
+    <AuthorizeView>  
+        <Authorized>
+            <div>
+                <button @onclick="Logout">Logout</button>
+            </div>        
+    </Authorized>  
+    <NotAuthorized> 
+        <div>
+            <p>Please signed in.</p>
+            <NavLink href="login">Login</NavLink> |
+            <NavLink href="register">Registration</NavLink>
+        </div>
+    </NotAuthorized>  
+</AuthorizeView>  
+</CascadingAuthenticationState>
+ 
 
 @code {
-
+    private void Logout(){
+        _navigation.NavigateTo($"/logout", true);
+    }
 }

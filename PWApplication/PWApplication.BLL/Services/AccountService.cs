@@ -104,5 +104,20 @@ namespace PWApplication.BLL.Services
         {
             await _signInManager.SignOutAsync();
         }
+
+        public async Task<User> FindByEmail(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<bool> CanSignIn(User user)
+        {
+            return await _signInManager.CanSignInAsync(user);
+        }
+
+        public async Task<SignInResult> CheckPasswordSignIn(User user, string password)
+        {
+            return await _signInManager.CheckPasswordSignInAsync(user, password, true);
+        }
     }
 }

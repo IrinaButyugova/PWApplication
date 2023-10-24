@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWApplication.DAL", "PWAppl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWApplication.Domain", "PWApplication.Domain\PWApplication.Domain.csproj", "{7ECFFF35-569D-4F97-B6F5-7B89756505A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWBlazorApplication", "PWBlazorApplication\PWBlazorApplication.csproj", "{BF655929-9FA1-4824-AC7B-89666A330451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWBlazorApplication", "PWBlazorApplication\PWBlazorApplication.csproj", "{BF655929-9FA1-4824-AC7B-89666A330451}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

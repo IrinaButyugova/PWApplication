@@ -36,5 +36,6 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 app.UseAuthentication();;
 app.UseMiddleware<BlazorCookieLoginMiddleware>();
+app.UseMiddleware<BlazorCookieLogoutMiddleware>();
 
 app.Run();
