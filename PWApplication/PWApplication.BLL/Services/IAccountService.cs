@@ -13,6 +13,7 @@ namespace PWApplication.BLL.Services
         List<string> GetOtherUsersNames(string userName);
 
         Task<PWResult> Register(User user, string password);
+        Task<PWResult> RegisterAndSign(User user, string password);
 
         Task<PWResult> Login(string email, string password);
 

@@ -43,15 +43,15 @@ namespace PWApplication.BLL.Services
                 .ToList();
         }
 
-        public async Task<PWResult> Register(User user, string password)
+        public async Task<PWResult> RegisterAndSign(User user, string password)
         {
             var result = new PWResult();
 
             var createResult = await _userManager.CreateAsync(user, password);
             if (createResult.Succeeded)
             {
+                IncreaseBalance(user.Id);
                 await _signInManager.SignInAsync(user, false);
-                _transferService.IncreaseBalance(user.Id, _settingsOptions.RegistrationAward);
                 result.Succeeded = true;
             }
             else
@@ -67,6 +67,36 @@ namespace PWApplication.BLL.Services
             }
             
             return result;
+        }
+
+        public async Task<PWResult> Register(User user, string password)
+        {
+            var result = new PWResult();
+
+            var createResult = await _userManager.CreateAsync(user, password);
+            if (createResult.Succeeded)
+            {
+                IncreaseBalance(user.Id);
+                result.Succeeded = true;
+            }
+            else
+            {
+                foreach (var error in createResult.Errors)
+                {
+                    result.Errors.Add(new Error
+                    {
+                        Code = error.Code,
+                        Description = error.Description
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        private void IncreaseBalance(string userId)
+        {
+            _transferService.IncreaseBalance(userId, _settingsOptions.RegistrationAward);
         }
 
         public async Task<PWResult> Login(string email, string password)

@@ -31,7 +31,7 @@ namespace PWApplication.Controllers
                     .ForMember("UserName", opt => opt.MapFrom(x => x.Name)));
                 var mapper = new Mapper(mapperConfig);
                 User user = mapper.Map<RegisterViewModel, User>(model);
-                var result = await _accountService.Register(user, model.Password);
+                var result = await _accountService.RegisterAndSign(user, model.Password);
 
                 if (result.Succeeded)
                 {

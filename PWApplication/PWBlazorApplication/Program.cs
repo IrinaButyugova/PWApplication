@@ -5,6 +5,7 @@ using PWApplication.BLL.Services;
 using PWApplication.Domain.Models;
 using PWApplication.DAL.Repositories;
 using PWBlazorApplication;
+using PWApplication.Domain.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationContextConnection' not found.");
@@ -20,6 +21,7 @@ builder.Services.AddIdentity<User, IdentityRole>(opts => {
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+builder.Services.Configure<SettingsOptions>(builder.Configuration.GetSection("Settings"));
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITransferService, TransferService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
