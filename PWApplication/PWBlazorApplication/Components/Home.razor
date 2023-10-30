@@ -4,9 +4,14 @@
 @using Microsoft.AspNetCore.Components.Routing;
 @using Microsoft.AspNetCore.Components.Authorization;
 @using Microsoft.AspNetCore.Components.Web
+@using PWApplication.BLL.Enums;
 @using PWApplication.BLL.Services;
 @using PWApplication.Domain.Models;
+@using PWBlazorApplication.Models;
 @inject NavigationManager _navigation;
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject IAccountService _accountService;
+@inject ITransactionService _transactionService;
 
 
 <style>
@@ -14,21 +19,54 @@
         color: #00897B;
     }
 
-        a.active {
-            color: #004D40;
-            font-weight: 700;
-        }
+    a.active {
+        color: #004D40;
+        font-weight: 700;
+    }
 </style>
 
 <CascadingAuthenticationState>
     <AuthorizeView>  
         <Authorized>
-            <div>
-                <button @onclick="Logout">Logout</button>
+            <div class="container">
+                <p>@model.Name</p>
+                <p>PW balance: @model.Balance</p>
+                <div class="form-group">
+                    <a class="btn btn-primary">Create transaction</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Correspondent name</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var transaction in @model.Transactions)
+                    {
+                        <tr>
+                            <td>@transaction.Date</td>
+                            <td>@transaction.Correspondent.UserName</td>
+                            <td>@transaction.Amount</td>
+                            <td>@transaction.UserBalance</td>
+                            <td>
+                                @if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
+                                {
+                                    <a>Repeat</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                 </table>
+                <button type="button" class="btn btn-primary" @onclick="Logout">Logout</button>
             </div>        
-    </Authorized>  
-    <NotAuthorized> 
-        <div>
+        </Authorized>  
+    <NotAuthorized>
+            <div class="container">
             <p>Please signed in.</p>
             <NavLink href="login">Login</NavLink> |
             <NavLink href="register">Registration</NavLink>
@@ -39,6 +77,28 @@
  
 
 @code {
+    private HomeModel model = new HomeModel();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var stateUser = state.User;
+        if (stateUser == null)
+        {
+            return;
+        }
+
+        var user = _accountService.GetUser(stateUser.Identity.Name);
+        if(user == null)
+        {
+            return;
+        }
+
+        model.Name = user.UserName;
+        model.Balance = user.Balance;
+        model.Transactions = _transactionService.GetTransactions(user.UserName, null, null, null, null, null, SortState.DateAsc);
+    }
+
     private void Logout(){
         _navigation.NavigateTo($"/logout", true);
     }
