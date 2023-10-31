@@ -7,6 +7,7 @@
 @using PWApplication.BLL.Enums;
 @using PWApplication.BLL.Services;
 @using PWApplication.Domain.Models;
+@using PWBlazorApplication.Enums;
 @using PWBlazorApplication.Models;
 @inject NavigationManager _navigation;
 @inject AuthenticationStateProvider _authenticationStateProvider
@@ -37,9 +38,18 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Correspondent name</th>
-                            <th>Amount</th>
+                            <th>
+                                <span class="@(GetSortStyle(ColumnType.Date))"></span>
+                                <span class="sort-link" onclick="@(() => SortTable(model.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
+                            </th>
+                            <th>
+                                <span class="@(GetSortStyle(ColumnType.CorrespondentName))"></span>
+                                <span class="sort-link" onclick="@(() => SortTable(model.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
+                            </th>
+                            <th>
+                                <span class="@(GetSortStyle(ColumnType.Amount))"></span>
+                                <span class="sort-link" onclick="@(() => SortTable(model.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
+                            </th>
                             <th>Balance</th>
                             <th></th>
                         </tr>
@@ -78,6 +88,7 @@
 
 @code {
     private HomeModel model = new HomeModel();
+    private User user;
 
     protected async override Task OnInitializedAsync()
     {
@@ -88,7 +99,7 @@
             return;
         }
 
-        var user = _accountService.GetUser(stateUser.Identity.Name);
+        user = _accountService.GetUser(stateUser.Identity.Name);
         if(user == null)
         {
             return;
@@ -96,7 +107,8 @@
 
         model.Name = user.UserName;
         model.Balance = user.Balance;
-        model.Transactions = _transactionService.GetTransactions(user.UserName, null, null, null, null, null, SortState.DateAsc);
+        model.CurrentSort = SortState.DateDesc;
+        model.Transactions = _transactionService.GetTransactions(user.UserName, null, null, null, null, null, model.CurrentSort);
     }
 
     private void Logout(){
@@ -105,5 +117,50 @@
 
     private void CreateTransaction(){
         _navigation.NavigateTo($"/createTransaction", true);
+    }
+
+    private void SortTable(SortState newSortState)
+    {
+        model.CurrentSort = newSortState;
+        model.Transactions = _transactionService.GetTransactions(user.UserName, null, null, null, null, null, model.CurrentSort);
+    }
+
+    private string GetSortStyle(ColumnType columnType)
+    {
+        switch (columnType)
+        {
+            case ColumnType.Date:
+                if (model.CurrentSort == SortState.DateAsc)
+                {
+                    return "glyphicon glyphicon-chevron-up";
+                }
+                if (model.CurrentSort == SortState.DateDesc)
+                {
+                    return "glyphicon glyphicon-chevron-down";
+                }
+                break;
+            case ColumnType.CorrespondentName:
+                if (model.CurrentSort == SortState.CorrespondentNameAsc)
+                {
+                    return "glyphicon glyphicon-chevron-up";
+                }
+                if (model.CurrentSort == SortState.CorrespondentNameDesc)
+                {
+                    return "glyphicon glyphicon-chevron-down";
+                }
+                break;
+            case ColumnType.Amount:
+                if (model.CurrentSort == SortState.AmountAsc)
+                {
+                    return "glyphicon glyphicon-chevron-up";
+                }
+                if (model.CurrentSort == SortState.AmountDesc)
+                {
+                    return "glyphicon glyphicon-chevron-down";
+                }
+                break;
+        }
+
+        return "";
     }
 }

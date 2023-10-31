@@ -1,4 +1,5 @@
-﻿using PWApplication.Domain.Models;
+﻿using PWApplication.BLL.Enums;
+using PWApplication.Domain.Models;
 
 namespace PWBlazorApplication.Models
 {
@@ -12,6 +13,6 @@ namespace PWBlazorApplication.Models
 
         //public FilterViewModel FilterViewModel { get; set; }
 
-        //public SortState CurrentSort { get; set; }
+        public SortState CurrentSort { get; set; }
     }
 }
