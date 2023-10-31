@@ -13,26 +13,35 @@
 @inject IAccountService _accountService;
 @inject NavigationManager _navigation;
 
-<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
+<EditForm class="container" EditContext="editContext" OnSubmit="ValidSubmit">
+    <h2>Register</h2>
 	<DataAnnotationsValidator />
 	<ValidationSummary />
-	 <p>
-        Name:<br />
-        <InputText id="name" @bind-Value="registerModel.Name" />
-    </p>
-    <p>
-        Email:<br />
-        <InputText id="email" @bind-Value="registerModel.Email" />
-    </p>
-    <p>
-        Password:<br />
-        <InputText type="password" id="password" @bind-Value="registerModel.Password" />
-    </p>
-    <p>
-        Confirm password:<br />
-        <InputText type="password" id="password" @bind-Value="registerModel.PasswordConfirm" />
-    </p>
-    <button type="submit">Register</button>
+	<div class="mb-3 row">
+        <label class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+            <InputText id="name" class="form-control" @bind-Value="registerModel.Name" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <InputText id="email" class="form-control" @bind-Value="registerModel.Email" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <InputText type="password" id="password" class="form-control" @bind-Value="registerModel.Password" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label">Confirm password</label>
+        <div class="col-sm-10">
+            <InputText type="password" id="password" class="form-control" @bind-Value="registerModel.PasswordConfirm" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
 </EditForm>
 
 @code {
