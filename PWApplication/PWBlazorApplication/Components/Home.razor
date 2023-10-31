@@ -32,7 +32,7 @@
                 <p>@model.Name</p>
                 <p>PW balance: @model.Balance</p>
                 <div class="form-group">
-                    <a class="btn btn-primary">Create transaction</a>
+                    <a class="btn btn-primary" @onclick="CreateTransaction">Create transaction</a>
                 </div>
                 <table class="table">
                     <thead>
@@ -101,5 +101,9 @@
 
     private void Logout(){
         _navigation.NavigateTo($"/logout", true);
+    }
+
+    private void CreateTransaction(){
+        _navigation.NavigateTo($"/createTransaction", true);
     }
 }
