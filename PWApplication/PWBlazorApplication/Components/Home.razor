@@ -55,7 +55,7 @@
                             <td>
                                 @if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
                                 {
-                                    <a>Repeat</a>
+                                    <a href="createTransaction?id=@transaction.Id">Repeat</a>
                                 }
                             </td>
                         </tr>

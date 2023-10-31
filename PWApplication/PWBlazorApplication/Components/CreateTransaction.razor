@@ -6,6 +6,7 @@
 @using PWApplication.BLL.Services;
 
 @inject IAccountService _accountService;
+@inject ITransactionService _transactionService;
 @inject ITransferService _transferService;
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager _navigation;
@@ -43,11 +44,23 @@
     private ValidationMessageStore? messageStore;
     private string userName;
 
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
     protected async override Task OnInitializedAsync()
     {
         var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
         userName = state.User.Identity.Name;
         createModel.Users = _accountService.GetOtherUsersNames(userName);
+
+        if(Id > 0)
+        {
+            var transaction = _transactionService.GetTransaction(Id);
+            createModel.Amount = transaction.Amount;
+            createModel.RecipientName = transaction.Correspondent.UserName;
+        }
+
         editContext = new(createModel);
         messageStore = new(editContext);
     }
