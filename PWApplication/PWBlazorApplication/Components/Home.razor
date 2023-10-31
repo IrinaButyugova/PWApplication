@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Identity;
 @using Microsoft.AspNetCore.Components.Routing;
 @using Microsoft.AspNetCore.Components.Authorization;
+@using Microsoft.AspNetCore.Components.Forms;
 @using Microsoft.AspNetCore.Components.Web
 @using PWApplication.BLL.Enums;
 @using PWApplication.BLL.Services;
@@ -32,8 +33,11 @@
             <div class="container">
                 <p>@model.Name</p>
                 <p>PW balance: @model.Balance</p>
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <a class="btn btn-primary" @onclick="CreateTransaction">Create transaction</a>
+                </div>
+                <div class="mb-3">
+                    <Filter FilterModel="@model.FilterModel" OnClickCallback="@Filter"></Filter>
                 </div>
                 <table class="table">
                     <thead>
@@ -108,7 +112,8 @@
         model.Name = user.UserName;
         model.Balance = user.Balance;
         model.CurrentSort = SortState.DateDesc;
-        model.Transactions = _transactionService.GetTransactions(user.UserName, null, null, null, null, null, model.CurrentSort);
+        model.FilterModel = new FilterModel();
+        UpdateTransactions();
     }
 
     private void Logout(){
@@ -122,7 +127,7 @@
     private void SortTable(SortState newSortState)
     {
         model.CurrentSort = newSortState;
-        model.Transactions = _transactionService.GetTransactions(user.UserName, null, null, null, null, null, model.CurrentSort);
+        UpdateTransactions();
     }
 
     private string GetSortStyle(ColumnType columnType)
@@ -162,5 +167,16 @@
         }
 
         return "";
+    }
+
+    private void Filter()
+    {
+        UpdateTransactions();
+    }
+
+    private void UpdateTransactions()
+    {
+        model.Transactions = _transactionService.GetTransactions(user.UserName, model.FilterModel.StartDate, model.FilterModel.EndDate, model.FilterModel.CorrespondentName,
+           model.FilterModel.StartAmount, model.FilterModel.EndAmount, model.CurrentSort);
     }
 }

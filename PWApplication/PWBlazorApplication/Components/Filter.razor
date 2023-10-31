@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Forms;
+@using PWBlazorApplication.Models;
+
+<EditForm Model="@FilterModel" OnSubmit="OnClickCallback">
+    <div class="mb-3 row">
+        <div class="col-md-6">
+            <label class="form-label">Start date</label>
+             <InputDate class="form-control" @bind-Value="FilterModel.StartDate"/>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">End date</label>
+            <InputDate class="form-control" @bind-Value="FilterModel.EndDate" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-md-6">
+            <label class="form-label">Correspondent name</label>
+            <InputText id="email" class="form-control" @bind-Value="FilterModel.CorrespondentName" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-md-6">
+            <label class="form-label">Start amount</label>
+            <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.StartAmount" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">End amount</label>
+            <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.EndAmount" />
+        </div>
+    </div>
+    <div>
+        <input type="submit" class="btn btn-primary" value="Filter" />
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public FilterModel FilterModel { get; set; }
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+}

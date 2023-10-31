@@ -11,7 +11,7 @@ namespace PWBlazorApplication.Models
 
         public List<Transaction> Transactions { get; set; }
 
-        //public FilterViewModel FilterViewModel { get; set; }
+        public FilterModel FilterModel { get; set; }
 
         public SortState CurrentSort { get; set; }
     }
