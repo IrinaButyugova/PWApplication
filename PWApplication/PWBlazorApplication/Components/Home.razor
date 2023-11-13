@@ -40,15 +40,15 @@
                         <tr>
                             <th>
                                 <span class="@(GetSortStyle(ColumnType.Date))"></span>
-                                <span class="sort-link" onclick="@(() => SortTable(model.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
+                                <span class="sort-link" @onclick="@(() => SortTable(model.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
                             </th>
                             <th>
                                 <span class="@(GetSortStyle(ColumnType.CorrespondentName))"></span>
-                                <span class="sort-link" onclick="@(() => SortTable(model.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
+                                <span class="sort-link" @onclick="@(() => SortTable(model.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
                             </th>
                             <th>
                                 <span class="@(GetSortStyle(ColumnType.Amount))"></span>
-                                <span class="sort-link" onclick="@(() => SortTable(model.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
+                                <span class="sort-link" @onclick="@(() => SortTable(model.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
                             </th>
                             <th>Balance</th>
                             <th></th>
