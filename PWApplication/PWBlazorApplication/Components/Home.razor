@@ -1,6 +1,4 @@
-﻿@page "/"
-
-@using Microsoft.AspNetCore.Identity;
+﻿@using Microsoft.AspNetCore.Identity;
 @using Microsoft.AspNetCore.Components.Routing;
 @using Microsoft.AspNetCore.Components.Authorization;
 @using Microsoft.AspNetCore.Components.Forms;
@@ -27,9 +25,7 @@
     }
 </style>
 
-<CascadingAuthenticationState>
-    <AuthorizeView>  
-        <Authorized>
+
             <div class="container">
                 <p>@model.Name</p>
                 <p>PW balance: @model.Balance</p>
@@ -77,17 +73,7 @@
                     </tbody>
                  </table>
                 <button type="button" class="btn btn-primary" @onclick="Logout">Logout</button>
-            </div>        
-        </Authorized>  
-    <NotAuthorized>
-            <div class="container">
-            <p>Please signed in.</p>
-            <NavLink href="login">Login</NavLink> |
-            <NavLink href="register">Registration</NavLink>
-        </div>
-    </NotAuthorized>  
-</AuthorizeView>  
-</CascadingAuthenticationState>
+            </div>
  
 
 @code {

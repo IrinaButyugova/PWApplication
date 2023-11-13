@@ -1,0 +1,16 @@
+﻿@page "/"
+
+<CascadingAuthenticationState>
+    <AuthorizeView>  
+        <Authorized>
+            <Home></Home>
+        </Authorized>  
+        <NotAuthorized>
+            <Start></Start>
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingAuthenticationState>
+
+@code {
+
+}
