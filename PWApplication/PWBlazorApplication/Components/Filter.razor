@@ -3,35 +3,28 @@
 @using PWBlazorApplication.Models;
 
 <EditForm Model="@FilterModel" OnSubmit="OnClickCallback">
-    <div class="mb-3 row">
-        <div class="col-md-6">
-            <label class="form-label">Start date</label>
-             <InputDate class="form-control" @bind-Value="FilterModel.StartDate"/>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label">End date</label>
+    <InputRow>
+        <FilterComponent Title="Start date">
+            <InputDate class="form-control" @bind-Value="FilterModel.StartDate" />
+        </FilterComponent>
+        <FilterComponent Title="End date">
             <InputDate class="form-control" @bind-Value="FilterModel.EndDate" />
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-md-6">
-            <label class="form-label">Correspondent name</label>
+        </FilterComponent>
+    </InputRow>
+    <InputRow>
+        <FilterComponent Title="Correspondent name">
             <InputText id="email" class="form-control" @bind-Value="FilterModel.CorrespondentName" />
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-md-6">
-            <label class="form-label">Start amount</label>
+        </FilterComponent>
+    </InputRow>
+    <InputRow>
+        <FilterComponent Title="Start amount">
             <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.StartAmount" />
-        </div>
-        <div class="col-md-6">
-            <label class="form-label">End amount</label>
+        </FilterComponent>
+        <FilterComponent Title="End amount">
             <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.EndAmount" />
-        </div>
-    </div>
-    <div>
-        <input type="submit" class="btn btn-primary" value="Filter" />
-    </div>
+        </FilterComponent>
+    </InputRow>
+    <SubmitButton Title="Filter" />
 </EditForm>
 
 @code {

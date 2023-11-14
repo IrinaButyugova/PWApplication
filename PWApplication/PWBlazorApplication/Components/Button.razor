@@ -1,0 +1,8 @@
+﻿<button type="button" class="btn btn-primary" @onclick="OnClickCallback">@Title</button>
+
+@code {
+	[Parameter]
+	public string Title { get; set; } = "";
+	[Parameter]
+	public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+}

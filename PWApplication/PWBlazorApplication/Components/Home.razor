@@ -27,10 +27,10 @@
 
 
             <div class="container">
-                <p>@model.Name</p>
-                <p>PW balance: @model.Balance</p>
+                <Header>@model.Name</Header>
+                <Header>PW balance: @model.Balance</Header>
                 <div class="form-group mb-3">
-                    <a class="btn btn-primary" @onclick="CreateTransaction">Create transaction</a>
+                    <Button Title="Create transaction" OnClickCallback="CreateTransaction" />
                 </div>
                 <div class="mb-3">
                     <Filter FilterModel="@model.FilterModel" OnClickCallback="@Filter"></Filter>
@@ -72,7 +72,7 @@
                     }
                     </tbody>
                  </table>
-                <button type="button" class="btn btn-primary" @onclick="Logout">Logout</button>
+                <Button Title="Logout" OnClickCallback="Logout" />
             </div>
  
 
