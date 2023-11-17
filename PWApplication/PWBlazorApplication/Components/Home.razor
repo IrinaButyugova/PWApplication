@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.Routing;
 @using Microsoft.AspNetCore.Components.Authorization;
 @using Microsoft.AspNetCore.Components.Forms;
@@ -30,7 +31,7 @@
                 <Header>@model.Name</Header>
                 <Header>PW balance: @model.Balance</Header>
                 <div class="form-group mb-3">
-                    <Button Title="Create transaction" OnClickCallback="CreateTransaction" />
+                    <CreateTransaction Id="@transactionId"></CreateTransaction>
                 </div>
                 <div class="mb-3">
                     <Filter FilterModel="@model.FilterModel" OnClickCallback="@Filter"></Filter>
@@ -65,7 +66,7 @@
                             <td>
                                 @if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
                                 {
-                                    <a href="createTransaction?id=@transaction.Id">Repeat</a>
+                                    <Button Title="Repeat" OnClickCallback="@(() => RepeatTransaction(@transaction.Id))" />
                                 }
                             </td>
                         </tr>
@@ -79,6 +80,7 @@
 @code {
     private HomeModel model = new HomeModel();
     private User user;
+    private int transactionId = 0;
 
     protected async override Task OnInitializedAsync()
     {
@@ -106,8 +108,9 @@
         _navigation.NavigateTo($"/logout", true);
     }
 
-    private void CreateTransaction(){
-        _navigation.NavigateTo($"/createTransaction", true);
+    private void RepeatTransaction(int id)
+    {
+        transactionId = id;
     }
 
     private void SortTable(SortState newSortState)

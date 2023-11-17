@@ -9,8 +9,7 @@
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager _navigation;
 
-<EditForm class="container" EditContext="editContext" OnSubmit="ValidSubmit">
-    <Header>Create Transaction</Header>
+<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <InputRow>
@@ -38,29 +37,40 @@
     private string userName;
 
     [Parameter]
-    [SupplyParameterFromQuery]
     public int Id { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
         var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
         userName = state.User.Identity.Name;
-        createModel.Users = _accountService.GetOtherUsersNames(userName);
-
-        if(Id > 0)
-        {
-            var transaction = _transactionService.GetTransaction(Id);
-            createModel.Amount = transaction.Amount;
-            createModel.RecipientName = transaction.Correspondent.UserName;
-        }
+        createModel.Users = new List<string>();
+        createModel.Users.Add("");
+        createModel.Users.AddRange(_accountService.GetOtherUsersNames(userName));
 
         editContext = new(createModel);
         messageStore = new(editContext);
     }
 
+    protected override void OnParametersSet()
+    {
+        if (Id == 0)
+        {
+            return;
+        }
+
+        var transaction = _transactionService.GetTransaction(Id);
+        createModel.Amount = transaction.Amount;
+        createModel.RecipientName = transaction.Correspondent.UserName;
+    }
+
     private async void ValidSubmit()
     {
         messageStore.Clear();
+
+        if (editContext == null || !editContext.Validate())
+        {
+            return;
+        }
 
         if (createModel.Amount == 0)
         {
