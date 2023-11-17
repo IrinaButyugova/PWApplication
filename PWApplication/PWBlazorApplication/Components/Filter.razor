@@ -1,8 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components;
-@using Microsoft.AspNetCore.Components.Forms;
-@using PWBlazorApplication.Models;
-
-<EditForm Model="@FilterModel" OnSubmit="OnClickCallback">
+﻿<EditForm Model="@FilterModel" OnSubmit="OnClickCallback">
     <InputRow>
         <FilterComponent Title="Start date">
             <InputDate class="form-control" @bind-Value="FilterModel.StartDate" />
@@ -26,11 +22,3 @@
     </InputRow>
     <SubmitButton Title="Filter" />
 </EditForm>
-
-@code {
-    [Parameter]
-    public FilterModel FilterModel { get; set; }
-
-    [Parameter]
-    public EventCallback OnClickCallback { get; set; }
-}

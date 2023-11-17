@@ -1,171 +1,48 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@using Microsoft.AspNetCore.Components;
-@using Microsoft.AspNetCore.Components.Routing;
-@using Microsoft.AspNetCore.Components.Authorization;
-@using Microsoft.AspNetCore.Components.Forms;
-@using Microsoft.AspNetCore.Components.Web
-@using PWApplication.BLL.Enums;
-@using PWApplication.BLL.Services;
-@using PWApplication.Domain.Models;
-@using PWBlazorApplication.Enums;
-@using PWBlazorApplication.Models;
-@inject NavigationManager _navigation;
-@inject AuthenticationStateProvider _authenticationStateProvider
-@inject IAccountService _accountService;
-@inject ITransactionService _transactionService;
-
-
-<style>
-    a {
-        color: #00897B;
-    }
-
-    a.active {
-        color: #004D40;
-        font-weight: 700;
-    }
-</style>
-
-
-            <div class="container">
-                <Header>@model.Name</Header>
-                <Header>PW balance: @model.Balance</Header>
-                <div class="form-group mb-3">
-                    <CreateTransaction Id="@transactionId"></CreateTransaction>
-                </div>
-                <div class="mb-3">
-                    <Filter FilterModel="@model.FilterModel" OnClickCallback="@Filter"></Filter>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="@(GetSortStyle(ColumnType.Date))"></span>
-                                <span class="sort-link" @onclick="@(() => SortTable(model.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
-                            </th>
-                            <th>
-                                <span class="@(GetSortStyle(ColumnType.CorrespondentName))"></span>
-                                <span class="sort-link" @onclick="@(() => SortTable(model.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
-                            </th>
-                            <th>
-                                <span class="@(GetSortStyle(ColumnType.Amount))"></span>
-                                <span class="sort-link" @onclick="@(() => SortTable(model.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
-                            </th>
-                            <th>Balance</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var transaction in @model.Transactions)
-                    {
-                        <tr>
-                            <td>@transaction.Date</td>
-                            <td>@transaction.Correspondent.UserName</td>
-                            <td>@transaction.Amount</td>
-                            <td>@transaction.UserBalance</td>
-                            <td>
-                                @if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
-                                {
-                                    <Button Title="Repeat" OnClickCallback="@(() => RepeatTransaction(@transaction.Id))" />
-                                }
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                 </table>
-                <Button Title="Logout" OnClickCallback="Logout" />
-            </div>
- 
-
-@code {
-    private HomeModel model = new HomeModel();
-    private User user;
-    private int transactionId = 0;
-
-    protected async override Task OnInitializedAsync()
-    {
-        var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
-        var stateUser = state.User;
-        if (stateUser == null)
-        {
-            return;
-        }
-
-        user = _accountService.GetUser(stateUser.Identity.Name);
-        if(user == null)
-        {
-            return;
-        }
-
-        model.Name = user.UserName;
-        model.Balance = user.Balance;
-        model.CurrentSort = SortState.DateDesc;
-        model.FilterModel = new FilterModel();
-        UpdateTransactions();
-    }
-
-    private void Logout(){
-        _navigation.NavigateTo($"/logout", true);
-    }
-
-    private void RepeatTransaction(int id)
-    {
-        transactionId = id;
-    }
-
-    private void SortTable(SortState newSortState)
-    {
-        model.CurrentSort = newSortState;
-        UpdateTransactions();
-    }
-
-    private string GetSortStyle(ColumnType columnType)
-    {
-        switch (columnType)
-        {
-            case ColumnType.Date:
-                if (model.CurrentSort == SortState.DateAsc)
-                {
-                    return "glyphicon glyphicon-chevron-up";
-                }
-                if (model.CurrentSort == SortState.DateDesc)
-                {
-                    return "glyphicon glyphicon-chevron-down";
-                }
-                break;
-            case ColumnType.CorrespondentName:
-                if (model.CurrentSort == SortState.CorrespondentNameAsc)
-                {
-                    return "glyphicon glyphicon-chevron-up";
-                }
-                if (model.CurrentSort == SortState.CorrespondentNameDesc)
-                {
-                    return "glyphicon glyphicon-chevron-down";
-                }
-                break;
-            case ColumnType.Amount:
-                if (model.CurrentSort == SortState.AmountAsc)
-                {
-                    return "glyphicon glyphicon-chevron-up";
-                }
-                if (model.CurrentSort == SortState.AmountDesc)
-                {
-                    return "glyphicon glyphicon-chevron-down";
-                }
-                break;
-        }
-
-        return "";
-    }
-
-    private void Filter()
-    {
-        UpdateTransactions();
-    }
-
-    private void UpdateTransactions()
-    {
-        model.Transactions = _transactionService.GetTransactions(user.UserName, model.FilterModel.StartDate, model.FilterModel.EndDate, model.FilterModel.CorrespondentName,
-           model.FilterModel.StartAmount, model.FilterModel.EndAmount, model.CurrentSort);
-    }
-}
+﻿<div class="container">
+	<Header>@_model.Name</Header>
+	<Header>PW balance: @_model.Balance</Header>
+	<div class="form-group mb-3">
+		<CreateTransaction Id="@_transactionId"></CreateTransaction>
+	</div>
+	<div class="mb-3">
+		<Filter FilterModel="@_model.FilterModel" OnClickCallback="@Filter"></Filter>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					<span class="@(GetSortStyle(ColumnType.Date))"></span>
+					<span class="sort-link" @onclick="@(() => SortTable(_model.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
+				</th>
+				<th>
+					<span class="@(GetSortStyle(ColumnType.CorrespondentName))"></span>
+					<span class="sort-link" @onclick="@(() => SortTable(_model.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
+				</th>
+				<th>
+					<span class="@(GetSortStyle(ColumnType.Amount))"></span>
+					<span class="sort-link" @onclick="@(() => SortTable(_model.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
+				</th>
+				<th>Balance</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var transaction in @_model.Transactions)
+			{
+				<tr>
+					<td>@transaction.Date</td>
+					<td>@transaction.Correspondent.UserName</td>
+					<td>@transaction.Amount</td>
+					<td>@transaction.UserBalance</td>
+					<td>
+						@if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
+						{
+							<Button Title="Repeat" OnClickCallback="@(() => RepeatTransaction(@transaction.Id))" />
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<Button Title="Logout" OnClickCallback="Logout" />
+</div>

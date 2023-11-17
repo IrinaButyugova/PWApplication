@@ -1,17 +1,4 @@
-﻿@using AutoMapper;
-@using System.Threading;
-@using Microsoft.AspNetCore.Components.Forms;
-@using Microsoft.AspNetCore.Components.Web;
-@using Microsoft.AspNetCore.Identity;
-@using PWBlazorApplication.Models;
-@using PWApplication.BLL.Services;
-@using PWApplication.BLL.Errors;
-@using PWApplication.Domain.Models;
-
-@inject IAccountService _accountService;
-@inject NavigationManager _navigation;
-
-<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
+﻿<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
     <Header>Register</Header>
 	<DataAnnotationsValidator />
 	<ValidationSummary />
@@ -38,58 +25,3 @@
     <SubmitButton Title="Register" />
     <Button Title="Cancel" OnClickCallback="OnCancelClickCallback" />
 </EditForm>
-
-@code {
-    [Parameter]
-    public EventCallback OnCancelClickCallback { get; set; }
-
-    private RegisterModel registerModel = new RegisterModel();
-    private EditContext? editContext;
-    private ValidationMessageStore? messageStore;
-
-    protected override void OnInitialized()
-    {
-        editContext = new(registerModel);
-        messageStore = new(editContext);
-    }
-
-    private async void ValidSubmit()
-    {
-        messageStore.Clear();
-
-        if (editContext == null || !editContext.Validate())
-        {
-            return;
-        }
-
-        var mapperConfig = new MapperConfiguration(cfg => cfg.CreateMap<RegisterModel, User>()
-                   .ForMember("UserName", opt => opt.MapFrom(x => x.Name)));
-        var mapper = new Mapper(mapperConfig);
-        var user = mapper.Map<RegisterModel, User>(registerModel);
-        var result = await _accountService.Register(user, registerModel.Password);
-
-        if(result.Succeeded)
-        {
-            Guid key = Guid.NewGuid();
-            var loginModel = new LoginModel()
-                {
-                    Email = registerModel.Email,
-                    Password = registerModel.Password
-                };
-            BlazorCookieLoginMiddleware.Logins[key] = loginModel;
-            _navigation.NavigateTo($"/login?key={key}", true);
-        }
-        else
-        {
-            foreach(var error in result.Errors)
-            {
-                messageStore.Add(() => registerModel.Email, error.Description);
-            }
-        }
-
-        if (editContext.GetValidationMessages().Count() > 0)
-        {
-            editContext.NotifyValidationStateChanged();
-        }
-    }
-}
