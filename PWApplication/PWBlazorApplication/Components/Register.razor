@@ -11,7 +11,7 @@
 @inject IAccountService _accountService;
 @inject NavigationManager _navigation;
 
-<EditForm class="container" EditContext="editContext" OnSubmit="ValidSubmit">
+<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
     <Header>Register</Header>
 	<DataAnnotationsValidator />
 	<ValidationSummary />
@@ -22,23 +22,27 @@
     </InputRow>
     <InputRow>
         <InputComponent Title="Email">
-            <InputText id="email" class="form-control" @bind-Value="registerModel.Email" />
+            <InputText class="form-control" @bind-Value="registerModel.Email" />
         </InputComponent>
     </InputRow>
     <InputRow>
         <InputComponent Title="Password">
-            <InputText type="password" id="password" class="form-control" @bind-Value="registerModel.Password" />
+            <InputText type="password" class="form-control" @bind-Value="registerModel.Password" />
         </InputComponent>
     </InputRow>
     <InputRow>
         <InputComponent Title="Confirm password">
-            <InputText type="password" id="password" class="form-control" @bind-Value="registerModel.PasswordConfirm" />
+            <InputText type="password" class="form-control" @bind-Value="registerModel.PasswordConfirm" />
         </InputComponent>
     </InputRow>
     <SubmitButton Title="Register" />
+    <Button Title="Cancel" OnClickCallback="OnCancelClickCallback" />
 </EditForm>
 
 @code {
+    [Parameter]
+    public EventCallback OnCancelClickCallback { get; set; }
+
     private RegisterModel registerModel = new RegisterModel();
     private EditContext? editContext;
     private ValidationMessageStore? messageStore;

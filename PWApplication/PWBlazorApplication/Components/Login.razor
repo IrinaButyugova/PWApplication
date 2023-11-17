@@ -9,7 +9,7 @@
 @inject IAccountService _accountService;
 @inject NavigationManager _navigation;
 
-<EditForm class="container" EditContext="editContext" OnSubmit="ValidSubmit">
+<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
     <Header>Login</Header>
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -24,9 +24,13 @@
         </InputComponent>
     </InputRow>
     <SubmitButton />
+    <Button Title="Cancel" OnClickCallback="OnCancelClickCallback" />
 </EditForm>
 
 @code {
+    [Parameter]
+    public EventCallback OnCancelClickCallback { get; set; }
+
     private LoginModel loginModel = new LoginModel();
     private EditContext? editContext;
     private ValidationMessageStore? messageStore;

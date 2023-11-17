@@ -1,9 +1,42 @@
 ﻿<div class="container">
     <Header>Please signed in.</Header>
-    <NavLink href="login">Login</NavLink> |
-    <NavLink href="register">Registration</NavLink>
+    @if(_loginVisible)
+    {
+        <Login OnCancelClickCallback="@CancelLogin"></Login>
+    }
+    else if(_registrationVisible)
+    {
+        <Register OnCancelClickCallback="@CancelRegistration"></Register>
+    }
+    else
+    {
+        <Button Title="Login" OnClickCallback="Login" />
+        <Button Title="Registration" OnClickCallback="Registration" />
+    }
+    
 </div>
 
 @code {
+    private bool _loginVisible;
+    private bool _registrationVisible;
 
+    private void Login()
+    {
+        _loginVisible = true;
+    }
+
+    private void CancelLogin()
+    {
+        _loginVisible = false;
+    }
+
+    private void Registration()
+    {
+        _registrationVisible = true;
+    }
+
+    private void CancelRegistration()
+    {
+        _registrationVisible = false;
+    }
 }
