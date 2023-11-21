@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Fluxor;
+using Microsoft.AspNetCore.Components;
 using PWApplication.BLL.Enums;
-using PWApplication.BLL.Services;
 using PWApplication.Domain.Models;
 using PWBlazorApplication.Enums;
-using PWBlazorApplication.Models;
+using PWBlazorApplication.Store.HomeUseCase;
 
 namespace PWBlazorApplication.Components
 {
@@ -13,35 +12,17 @@ namespace PWBlazorApplication.Components
 		[Inject]
         NavigationManager Navigation { get; set; }
 		[Inject]
-		AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        IState<HomeState> HomeState { get; set; }
 		[Inject]
-		IAccountService AccountService { get; set; }
-		[Inject]
-		ITransactionService TransactionService { get; set; }
-        private HomeModel _model = new HomeModel();
+		public IDispatcher Dispatcher { get; set; }
+
         private User _user;
         private int _transactionId = 0;
 
         protected async override Task OnInitializedAsync()
         {
-            var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var stateUser = state.User;
-            if (stateUser == null)
-            {
-                return;
-            }
-
-            _user = AccountService.GetUser(stateUser.Identity.Name);
-            if (_user == null)
-            {
-                return;
-            }
-
-            _model.Name = _user.UserName;
-            _model.Balance = _user.Balance;
-            _model.CurrentSort = SortState.DateDesc;
-            _model.FilterModel = new FilterModel();
-            UpdateTransactions();
+			base.OnInitialized();
+			Dispatcher.Dispatch(new FetchHomeDataAction());
         }
 
         private void Logout()
@@ -56,8 +37,17 @@ namespace PWBlazorApplication.Components
 
         private void SortTable(SortState newSortState)
         {
-            _model.CurrentSort = newSortState;
-            UpdateTransactions();
+            var action = new FetchTransactionsAction()
+            {
+                UserName = HomeState.Value.Name,
+				StartDate = HomeState.Value.FilterModel.StartDate,
+                EndDate = HomeState.Value.FilterModel.EndDate,
+                CorrespondentName = HomeState.Value.FilterModel.CorrespondentName,
+                StartAmount = HomeState.Value.FilterModel.StartAmount,
+                EndAmount = HomeState.Value.FilterModel.EndAmount,
+				SortState = newSortState
+            };
+            Dispatcher.Dispatch(action);
         }
 
         private string GetSortStyle(ColumnType columnType)
@@ -65,31 +55,31 @@ namespace PWBlazorApplication.Components
             switch (columnType)
             {
                 case ColumnType.Date:
-                    if (_model.CurrentSort == SortState.DateAsc)
+                    if (HomeState.Value.CurrentSort == SortState.DateAsc)
                     {
                         return "glyphicon glyphicon-chevron-up";
                     }
-                    if (_model.CurrentSort == SortState.DateDesc)
+                    if (HomeState.Value.CurrentSort == SortState.DateDesc)
                     {
                         return "glyphicon glyphicon-chevron-down";
                     }
                     break;
                 case ColumnType.CorrespondentName:
-                    if (_model.CurrentSort == SortState.CorrespondentNameAsc)
+                    if (HomeState.Value.CurrentSort == SortState.CorrespondentNameAsc)
                     {
                         return "glyphicon glyphicon-chevron-up";
                     }
-                    if (_model.CurrentSort == SortState.CorrespondentNameDesc)
+                    if (HomeState.Value.CurrentSort == SortState.CorrespondentNameDesc)
                     {
                         return "glyphicon glyphicon-chevron-down";
                     }
                     break;
                 case ColumnType.Amount:
-                    if (_model.CurrentSort == SortState.AmountAsc)
+                    if (HomeState.Value.CurrentSort == SortState.AmountAsc)
                     {
                         return "glyphicon glyphicon-chevron-up";
                     }
-                    if (_model.CurrentSort == SortState.AmountDesc)
+                    if (HomeState.Value.CurrentSort == SortState.AmountDesc)
                     {
                         return "glyphicon glyphicon-chevron-down";
                     }
@@ -101,13 +91,17 @@ namespace PWBlazorApplication.Components
 
         private void Filter()
         {
-            UpdateTransactions();
-        }
-
-        private void UpdateTransactions()
-        {
-            _model.Transactions = TransactionService.GetTransactions(_user.UserName, _model.FilterModel.StartDate, _model.FilterModel.EndDate, _model.FilterModel.CorrespondentName,
-               _model.FilterModel.StartAmount, _model.FilterModel.EndAmount, _model.CurrentSort);
-        }
+			var action = new FetchTransactionsAction()
+			{
+				UserName = HomeState.Value.Name,
+				StartDate = HomeState.Value.FilterModel.StartDate,
+				EndDate = HomeState.Value.FilterModel.EndDate,
+				CorrespondentName = HomeState.Value.FilterModel.CorrespondentName,
+				StartAmount = HomeState.Value.FilterModel.StartAmount,
+				EndAmount = HomeState.Value.FilterModel.EndAmount,
+				SortState = HomeState.Value.CurrentSort
+			};
+			Dispatcher.Dispatch(action);
+		}
     }
 }

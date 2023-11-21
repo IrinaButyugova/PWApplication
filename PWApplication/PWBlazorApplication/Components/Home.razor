@@ -1,46 +1,52 @@
 ﻿<div class="container">
-	<Header>@_model.Name</Header>
-	<Header>PW balance: @_model.Balance</Header>
+	<Header>@HomeState.Value.Name</Header>
+	<Header>PW balance: @HomeState.Value.Balance</Header>
 	<div class="form-group mb-3">
 		<CreateTransaction Id="@_transactionId"></CreateTransaction>
 	</div>
 	<div class="mb-3">
-		<Filter FilterModel="@_model.FilterModel" OnClickCallback="@Filter"></Filter>
+		@if (@HomeState.Value.FilterModel != null)
+		{
+			<Filter FilterModel="@HomeState.Value.FilterModel" OnClickCallback="@Filter"></Filter>
+		}
 	</div>
 	<table class="table">
 		<thead>
 			<tr>
 				<th>
 					<span class="@(GetSortStyle(ColumnType.Date))"></span>
-					<span class="sort-link" @onclick="@(() => SortTable(_model.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
+					<span class="sort-link" @onclick="@(() => SortTable(HomeState.Value.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
 				</th>
 				<th>
 					<span class="@(GetSortStyle(ColumnType.CorrespondentName))"></span>
-					<span class="sort-link" @onclick="@(() => SortTable(_model.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
+					<span class="sort-link" @onclick="@(() => SortTable(HomeState.Value.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
 				</th>
 				<th>
 					<span class="@(GetSortStyle(ColumnType.Amount))"></span>
-					<span class="sort-link" @onclick="@(() => SortTable(_model.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
+					<span class="sort-link" @onclick="@(() => SortTable(HomeState.Value.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
 				</th>
 				<th>Balance</th>
 				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var transaction in @_model.Transactions)
+			@if (@HomeState.Value.Transactions != null)
 			{
-				<tr>
-					<td>@transaction.Date</td>
-					<td>@transaction.Correspondent.UserName</td>
-					<td>@transaction.Amount</td>
-					<td>@transaction.UserBalance</td>
-					<td>
-						@if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
-						{
-							<Button Title="Repeat" OnClickCallback="@(() => RepeatTransaction(@transaction.Id))" />
-						}
-					</td>
-				</tr>
+				@foreach (var transaction in @HomeState.Value.Transactions)
+				{
+					<tr>
+						<td>@transaction.Date</td>
+						<td>@transaction.Correspondent.UserName</td>
+						<td>@transaction.Amount</td>
+						<td>@transaction.UserBalance</td>
+						<td>
+							@if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
+							{
+								<Button Title="Repeat" OnClickCallback="@(() => RepeatTransaction(@transaction.Id))" />
+							}
+						</td>
+					</tr>
+				}
 			}
 		</tbody>
 	</table>

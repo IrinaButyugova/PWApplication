@@ -1,3 +1,4 @@
+using Fluxor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PWApplication.DAL.Data;
@@ -28,6 +29,13 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Transaction>, TransactionRepository>();
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
+var currentAssembly = typeof(Program).Assembly;
+builder.Services.AddFluxor(options => {
+    options.ScanAssemblies(currentAssembly);
+#if DEBUG
+	options.UseReduxDevTools();
+#endif
+});
 
 var app = builder.Build();
 
