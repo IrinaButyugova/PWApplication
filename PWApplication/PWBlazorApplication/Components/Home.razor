@@ -2,12 +2,12 @@
 	<Header>@HomeState.Value.Name</Header>
 	<Header>PW balance: @HomeState.Value.Balance</Header>
 	<div class="form-group mb-3">
-		<CreateTransaction Id="@_transactionId"></CreateTransaction>
+		<CreateTransaction Id="@_transactionId" OnCreateCallback="@(() => FetchTransactions(HomeState.Value.CurrentSort))"></CreateTransaction>
 	</div>
 	<div class="mb-3">
 		@if (@HomeState.Value.FilterModel != null)
 		{
-			<Filter FilterModel="@HomeState.Value.FilterModel" OnClickCallback="@Filter"></Filter>
+			<Filter FilterModel="@HomeState.Value.FilterModel" OnClickCallback="@(() => FetchTransactions(HomeState.Value.CurrentSort))"></Filter>
 		}
 	</div>
 	<table class="table">
@@ -15,15 +15,15 @@
 			<tr>
 				<th>
 					<span class="@(GetSortStyle(ColumnType.Date))"></span>
-					<span class="sort-link" @onclick="@(() => SortTable(HomeState.Value.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
+					<span class="sort-link" @onclick="@(() => FetchTransactions(HomeState.Value.CurrentSort == SortState.DateAsc ? SortState.DateDesc : SortState.DateAsc))">Date</span>
 				</th>
 				<th>
 					<span class="@(GetSortStyle(ColumnType.CorrespondentName))"></span>
-					<span class="sort-link" @onclick="@(() => SortTable(HomeState.Value.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
+					<span class="sort-link" @onclick="@(() => FetchTransactions(HomeState.Value.CurrentSort == SortState.CorrespondentNameAsc ? SortState.CorrespondentNameDesc : SortState.CorrespondentNameAsc))">Correspondent name</span>
 				</th>
 				<th>
 					<span class="@(GetSortStyle(ColumnType.Amount))"></span>
-					<span class="sort-link" @onclick="@(() => SortTable(HomeState.Value.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
+					<span class="sort-link" @onclick="@(() => FetchTransactions(HomeState.Value.CurrentSort == SortState.AmountAsc ? SortState.AmountDesc : SortState.AmountAsc))">Amount</span>
 				</th>
 				<th>Balance</th>
 				<th></th>

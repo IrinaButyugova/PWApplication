@@ -4,7 +4,7 @@ namespace PWBlazorApplication.Models
 {
     public class CreateTransactionModel
     {
-        public List<string> Users { get; set; }
+        public IEnumerable<string> Users { get; set; } = new List<string>();
 
         [Required]
         public string RecipientName { get; set; }

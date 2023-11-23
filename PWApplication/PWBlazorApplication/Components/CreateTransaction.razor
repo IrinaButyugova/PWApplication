@@ -1,20 +1,26 @@
-﻿<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <InputRow>
-        <InputComponent Title="Recipient Name">
-            <InputSelect class="form-select" name="RecipientName" @bind-Value="createModel.RecipientName">
-                @foreach (var user in @createModel.Users)
-                {
-                    <option value="@user">@user</option>
-                }
-            </InputSelect>
-        </InputComponent>
-    </InputRow>
-    <InputRow>
-        <InputComponent Title="Amount">
-            <InputNumber name="Amount" class="form-control" @bind-Value="createModel.Amount" />
-        </InputComponent>
-    </InputRow>
-    <SubmitButton Title="Create transaction" />
+﻿<EditForm Model="_createModel" OnSubmit="ValidSubmit">
+	<DataAnnotationsValidator />
+	<ul class="validation-errors" style="margin-bottom:0px">
+		@foreach (var message in @_validationMessages)
+		{
+			<li class="validation-message">@message</li>
+		}
+	</ul>
+	<ValidationSummary />
+	<InputRow>
+		<InputComponent Title="Recipient Name">
+			<InputSelect class="form-select" name="RecipientName" @bind-Value="TransactionState.Value.Model.RecipientName">
+				@foreach (var user in @TransactionState.Value.Model.Users)
+				{
+					<option value="@user">@user</option>
+				}
+			</InputSelect>
+		</InputComponent>
+	</InputRow>
+	<InputRow>
+		<InputComponent Title="Amount">
+			<InputNumber name="Amount" class="form-control" @bind-Value="TransactionState.Value.Model.Amount" />
+		</InputComponent>
+	</InputRow>
+	<SubmitButton Title="Create transaction" />
 </EditForm>

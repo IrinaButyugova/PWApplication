@@ -1,42 +1,28 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
 using PWBlazorApplication.Models;
-using PWApplication.BLL.Services;
 using Microsoft.AspNetCore.Components;
+using Fluxor;
+using PWBlazorApplication.Store.TransactionUseCase;
 
 namespace PWBlazorApplication.Components
 {
 	public partial class CreateTransaction
 	{
 		[Inject]
-		IAccountService AccountService { get; set; }
-		[Inject]
-		ITransactionService TransactionService { get; set; }
-		[Inject]
-		ITransferService TransferService { get; set; }
-		[Inject]
-		AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-		[Inject]
-		NavigationManager Navigation { get; set; }
-
-		public CreateTransactionModel createModel = new CreateTransactionModel();
-		private EditContext? editContext;
-		private ValidationMessageStore? messageStore;
-		private string userName;
-
+        public IDispatcher Dispatcher { get; set; }
+        [Inject]
+        public IState<TransactionState> TransactionState { get; set; }
 		[Parameter]
 		public int Id { get; set; }
+		[Parameter]
+		public EventCallback OnCreateCallback { get; set; }
+		private CreateTransactionModel _createModel => TransactionState.Value.Model;
+		private List<string> _validationMessages = new List<string>();
 
-		protected async override Task OnInitializedAsync()
+		protected override void OnInitialized()
 		{
-			var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-			userName = state.User.Identity.Name;
-			createModel.Users = new List<string>();
-			createModel.Users.Add("");
-			createModel.Users.AddRange(AccountService.GetOtherUsersNames(userName));
-
-			editContext = new(createModel);
-			messageStore = new(editContext);
+            base.OnInitialized();
+			Dispatcher.Dispatch(new FetchUsersAction());
 		}
 
 		protected override void OnParametersSet()
@@ -46,43 +32,36 @@ namespace PWBlazorApplication.Components
 				return;
 			}
 
-			var transaction = TransactionService.GetTransaction(Id);
-			createModel.Amount = transaction.Amount;
-			createModel.RecipientName = transaction.Correspondent.UserName;
+			Dispatcher.Dispatch(new FetchTransactionDataAction(Id));
 		}
 
-		private async void ValidSubmit()
+		private async void ValidSubmit(EditContext editContext)
 		{
-			messageStore.Clear();
+			_validationMessages.Clear();
 
-			if (editContext == null || !editContext.Validate())
+			if (TransactionState.Value.Model.Amount == 0)
+			{
+				var messages = editContext.GetValidationMessages();
+				_validationMessages.Add("Amount should be greater than zero");
+			}
+
+			if (editContext == null || !editContext.Validate() || _validationMessages.Any())
 			{
 				return;
 			}
 
-			if (createModel.Amount == 0)
+			Dispatcher.Dispatch(new CreateTransactionAction(TransactionState.Value.UserName, TransactionState.Value.Model.RecipientName, TransactionState.Value.Model.Amount));
+		
+			if (TransactionState.Value.Succeeded)
 			{
-				messageStore.Add(() => createModel.Amount, "Amount should be greater than zero");
+				await OnCreateCallback.InvokeAsync();
 			}
-			else
+			else if (TransactionState.Value.Errors != null)
 			{
-				var result = TransferService.CreateTransaction(userName, createModel.RecipientName, createModel.Amount);
-				if (result.Succeeded)
+				foreach (var error in TransactionState.Value.Errors)
 				{
-					Navigation.NavigateTo("/", true);
+					_validationMessages.Add(error.Description);
 				}
-				else
-				{
-					foreach (var error in result.Errors)
-					{
-						messageStore.Add(() => createModel.Amount, error.Description);
-					}
-				}
-			}
-
-			if (editContext.GetValidationMessages().Count() > 0)
-			{
-				editContext.NotifyValidationStateChanged();
 			}
 		}
 	}

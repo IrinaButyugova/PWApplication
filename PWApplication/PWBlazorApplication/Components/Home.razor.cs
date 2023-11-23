@@ -16,10 +16,9 @@ namespace PWBlazorApplication.Components
 		[Inject]
 		public IDispatcher Dispatcher { get; set; }
 
-        private User _user;
         private int _transactionId = 0;
 
-        protected async override Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
 			base.OnInitialized();
 			Dispatcher.Dispatch(new FetchHomeDataAction());
@@ -33,21 +32,6 @@ namespace PWBlazorApplication.Components
         private void RepeatTransaction(int id)
         {
             _transactionId = id;
-        }
-
-        private void SortTable(SortState newSortState)
-        {
-            var action = new FetchTransactionsAction()
-            {
-                UserName = HomeState.Value.Name,
-				StartDate = HomeState.Value.FilterModel.StartDate,
-                EndDate = HomeState.Value.FilterModel.EndDate,
-                CorrespondentName = HomeState.Value.FilterModel.CorrespondentName,
-                StartAmount = HomeState.Value.FilterModel.StartAmount,
-                EndAmount = HomeState.Value.FilterModel.EndAmount,
-				SortState = newSortState
-            };
-            Dispatcher.Dispatch(action);
         }
 
         private string GetSortStyle(ColumnType columnType)
@@ -89,7 +73,7 @@ namespace PWBlazorApplication.Components
             return "";
         }
 
-        private void Filter()
+        private void FetchTransactions(SortState sortState)
         {
 			var action = new FetchTransactionsAction()
 			{
@@ -99,9 +83,9 @@ namespace PWBlazorApplication.Components
 				CorrespondentName = HomeState.Value.FilterModel.CorrespondentName,
 				StartAmount = HomeState.Value.FilterModel.StartAmount,
 				EndAmount = HomeState.Value.FilterModel.EndAmount,
-				SortState = HomeState.Value.CurrentSort
+				SortState = sortState
 			};
 			Dispatcher.Dispatch(action);
 		}
-    }
+	}
 }
