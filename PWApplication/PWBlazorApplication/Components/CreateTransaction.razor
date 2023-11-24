@@ -1,11 +1,6 @@
 ﻿<EditForm Model="_createModel" OnSubmit="ValidSubmit">
 	<DataAnnotationsValidator />
-	<ul class="validation-errors" style="margin-bottom:0px">
-		@foreach (var message in @_validationMessages)
-		{
-			<li class="validation-message">@message</li>
-		}
-	</ul>
+	<ValidationErrors Errors="@_validationMessages"></ValidationErrors>
 	<ValidationSummary />
 	<InputRow>
 		<InputComponent Title="Recipient Name">

@@ -1,12 +1,7 @@
 ﻿<EditForm Model="_loginModel" OnSubmit="ValidSubmit">
     <Header>Login</Header>
     <DataAnnotationsValidator />
-    <ul class="validation-errors" style="margin-bottom:0px">
-        @foreach (var message in @LoginState.Value.Errors)
-        {
-            <li class="validation-message">@message.Description</li>
-        }
-    </ul>
+    <ValidationErrors Errors="@LoginState.Value.Errors.Select(x => x.Description).ToList()"></ValidationErrors>
     <ValidationSummary />
     <InputRow>
         <InputComponent Title="Email">
