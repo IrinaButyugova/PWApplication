@@ -22,10 +22,27 @@ namespace PWBlazorApplication.Components
 		protected override void OnInitialized()
 		{
             base.OnInitialized();
-			Dispatcher.Dispatch(new FetchUsersAction());
+			TransactionState.StateChanged += OnStateChanged;
+            Dispatcher.Dispatch(new FetchUsersAction());
 		}
 
-		protected override void OnParametersSet()
+        private async void OnStateChanged(object? sender, EventArgs e)
+        {
+            if (TransactionState.Value.CreationSucceeded)
+            {
+                await OnCreateCallback.InvokeAsync();
+            }
+            else if (TransactionState.Value.Errors != null)
+            {
+                _validationMessages.Clear();
+                foreach (var error in TransactionState.Value.Errors)
+                {
+                    _validationMessages.Add(error.Description);
+                }
+            }
+        }
+
+        protected override void OnParametersSet()
 		{
 			if (Id == 0)
 			{
@@ -51,18 +68,6 @@ namespace PWBlazorApplication.Components
 			}
 
 			Dispatcher.Dispatch(new CreateTransactionAction(TransactionState.Value.UserName, TransactionState.Value.Model.RecipientName, TransactionState.Value.Model.Amount));
-		
-			if (TransactionState.Value.Succeeded)
-			{
-				await OnCreateCallback.InvokeAsync();
-			}
-			else if (TransactionState.Value.Errors != null)
-			{
-				foreach (var error in TransactionState.Value.Errors)
-				{
-					_validationMessages.Add(error.Description);
-				}
-			}
-		}
+        }
 	}
 }

@@ -2,7 +2,7 @@
 	<Header>@HomeState.Value.Name</Header>
 	<Header>PW balance: @HomeState.Value.Balance</Header>
 	<div class="form-group mb-3">
-		<CreateTransaction Id="@_transactionId" OnCreateCallback="@(() => FetchTransactions(HomeState.Value.CurrentSort))"></CreateTransaction>
+		<CreateTransaction Id="@_transactionId" OnCreateCallback="FetchHomeData"></CreateTransaction>
 	</div>
 	<div class="mb-3">
 		@if (@HomeState.Value.FilterModel != null)

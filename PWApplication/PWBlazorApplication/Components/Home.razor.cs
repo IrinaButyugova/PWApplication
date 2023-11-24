@@ -21,7 +21,12 @@ namespace PWBlazorApplication.Components
         protected override void OnInitialized()
         {
 			base.OnInitialized();
-			Dispatcher.Dispatch(new FetchHomeDataAction());
+            FetchHomeData();
+        }
+
+        private void FetchHomeData()
+        {
+            Dispatcher.Dispatch(new FetchHomeDataAction());
         }
 
         private void Logout()
@@ -75,7 +80,8 @@ namespace PWBlazorApplication.Components
 
         private void FetchTransactions(SortState sortState)
         {
-			var action = new FetchTransactionsAction()
+            _transactionId = 0;
+            var action = new FetchTransactionsAction()
 			{
 				UserName = HomeState.Value.Name,
 				StartDate = HomeState.Value.FilterModel.StartDate,
@@ -86,6 +92,6 @@ namespace PWBlazorApplication.Components
 				SortState = sortState
 			};
 			Dispatcher.Dispatch(action);
-		}
+        }
 	}
 }

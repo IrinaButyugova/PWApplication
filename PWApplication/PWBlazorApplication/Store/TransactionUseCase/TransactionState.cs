@@ -7,7 +7,7 @@ namespace PWBlazorApplication.Store.TransactionUseCase
 	{
 		public CreateTransactionModel Model { get; init; }
 		public string UserName { get; init; }
-		public bool Succeeded { get; init; }
+		public bool CreationSucceeded { get; init; }
 		public List<Error> Errors { get; init; } = new List<Error>();
 
 		public TransactionState()
@@ -15,7 +15,7 @@ namespace PWBlazorApplication.Store.TransactionUseCase
 
 		}
 
-		public TransactionState(IEnumerable<string> users, string userName, bool succeeded, List<Error> errors)
+		public TransactionState(IEnumerable<string> users, string userName, bool creationSucceeded, List<Error> errors)
 		{
 			Model = new CreateTransactionModel()
 			{ 
@@ -23,7 +23,7 @@ namespace PWBlazorApplication.Store.TransactionUseCase
 			};
 
 			UserName = userName;
-			Succeeded = succeeded;	
+            CreationSucceeded = creationSucceeded;	
 			Errors = errors;
 		}
 	}
