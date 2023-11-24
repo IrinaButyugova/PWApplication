@@ -4,14 +4,14 @@ using PWApplication.BLL.Services;
 
 namespace PWBlazorApplication.Store.TransactionUseCase
 {
-    public class Effects
-    {
+    public class TransactionEffects
+	{
         AuthenticationStateProvider _authenticationStateProvider;
         IAccountService _accountService;
         ITransactionService _transactionService;
         ITransferService _transferService;
 
-		public Effects(AuthenticationStateProvider authenticationStateProvider, IAccountService accountService, ITransactionService transactionService, ITransferService transferService) 
+		public TransactionEffects(AuthenticationStateProvider authenticationStateProvider, IAccountService accountService, ITransactionService transactionService, ITransferService transferService) 
         {
             _authenticationStateProvider = authenticationStateProvider;
             _accountService = accountService;

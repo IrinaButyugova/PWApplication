@@ -8,13 +8,13 @@ using PWBlazorApplication.Models;
 
 namespace PWBlazorApplication.Store.HomeUseCase
 {
-    public class Effects
+    public class HomeEffects
     {
         private AuthenticationStateProvider _authenticationStateProvider;
         private IAccountService _accountService;
         private ITransactionService _transactionService;
 
-        public Effects(AuthenticationStateProvider authenticationStateProvider, IAccountService accountService, ITransactionService transactionService)
+        public HomeEffects(AuthenticationStateProvider authenticationStateProvider, IAccountService accountService, ITransactionService transactionService)
         {
             _authenticationStateProvider = authenticationStateProvider;
             _accountService = accountService;
