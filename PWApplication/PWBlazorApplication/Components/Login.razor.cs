@@ -1,71 +1,49 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Identity;
 using PWBlazorApplication.Models;
-using PWApplication.BLL.Services;
 using Microsoft.AspNetCore.Components;
+using Fluxor;
+using PWBlazorApplication.Store.LoginUseCase;
 
 namespace PWBlazorApplication.Components
 {
 	public partial class Login
 	{
 		[Inject]
-		IAccountService AccountService { get; set; }
-		[Inject]
 		NavigationManager Navigation { get; set; }
+        [Inject]
+        public IDispatcher Dispatcher { get; set; }
+        [Inject]
+		public IState<LoginState> LoginState { get; set; }
 
 		[Parameter]
 		public EventCallback OnCancelClickCallback { get; set; }
 
-		private LoginModel loginModel = new LoginModel();
-		private EditContext? editContext;
-		private ValidationMessageStore? messageStore;
+		private LoginModel _loginModel = new LoginModel();
 
-		protected override void OnInitialized()
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            LoginState.StateChanged += OnStateChanged;
+        }
+
+        private void OnStateChanged(object? sender, EventArgs e)
+        {
+            if (LoginState.Value.Succeeded)
+            {
+                Guid key = Guid.NewGuid();
+                BlazorCookieLoginMiddleware.Logins[key] = _loginModel;
+                Navigation.NavigateTo($"/login?key={key}", true);
+            }
+        }
+
+        private async void ValidSubmit(EditContext editContext)
 		{
-			editContext = new(loginModel);
-			messageStore = new(editContext);
-		}
-
-		private async void ValidSubmit()
-		{
-			messageStore.Clear();
-
-			if (editContext == null || !editContext.Validate())
+            if (editContext == null || !editContext.Validate())
 			{
 				return;
 			}
 
-			var user = await AccountService.FindByEmail(loginModel.Email);
-			if (user != null)
-			{
-				if (await AccountService.CanSignIn(user))
-				{
-					var checkResult = await AccountService.CheckPasswordSignIn(user, loginModel.Password);
-					if (checkResult == SignInResult.Success)
-					{
-						Guid key = Guid.NewGuid();
-						BlazorCookieLoginMiddleware.Logins[key] = loginModel;
-						Navigation.NavigateTo($"/login?key={key}", true);
-					}
-					else
-					{
-						messageStore.Add(() => loginModel.Password, "Login failed. Check your password");
-					}
-				}
-				else
-				{
-					messageStore.Add(() => loginModel.Email, "Your account is blocked");
-				}
-			}
-			else
-			{
-				messageStore.Add(() => loginModel.Email, "User not found");
-			}
-
-			if (editContext.GetValidationMessages().Count() > 0)
-			{
-				editContext.NotifyValidationStateChanged();
-			}
-		}
+			Dispatcher.Dispatch(new CheckSignInAction(_loginModel.Email, _loginModel.Password));
+        }
 	}
 }

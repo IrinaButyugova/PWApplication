@@ -8,6 +8,7 @@ namespace PWApplication.BLL.Errors
     public static class ErrorCodes
     {
         public const string USER_NOT_FOUND = "UserNotFound";
+        public const string ACCOUNT_BLOCKED = "AccountBlocked";
 
         public const string WRONG_PASSWORD = "WrongPassword";
 
