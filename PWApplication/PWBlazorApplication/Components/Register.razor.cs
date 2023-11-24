@@ -1,70 +1,54 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
 using PWBlazorApplication.Models;
-using PWApplication.BLL.Services;
-using PWApplication.Domain.Models;
+using PWBlazorApplication.Store.RegisterUseCase;
 using Microsoft.AspNetCore.Components;
+using Fluxor;
 
 namespace PWBlazorApplication.Components
 {
 	public partial class Register
 	{
 		[Inject]
-		IAccountService AccountService { get; set; }
-		[Inject]
 		NavigationManager Navigation { get; set; }
+		[Inject]
+		public IDispatcher Dispatcher { get; set; }
+		[Inject]
+		public IState<RegisterState> RegisterState { get; set; }
 
 		[Parameter]
-		public EventCallback OnCancelClickCallback { get; set; }
+        public EventCallback OnCancelClickCallback { get; set; }
 
-		private RegisterModel registerModel = new RegisterModel();
-		private EditContext? editContext;
-		private ValidationMessageStore? messageStore;
+		private RegisterModel _registerModel = new RegisterModel();
 
 		protected override void OnInitialized()
 		{
-			editContext = new(registerModel);
-			messageStore = new(editContext);
+			base.OnInitialized();
+			RegisterState.StateChanged += OnStateChanged;
 		}
 
-		private async void ValidSubmit()
+		private void OnStateChanged(object? sender, EventArgs e)
 		{
-			messageStore.Clear();
+			if (RegisterState.Value.Succeeded)
+			{
+				Guid key = Guid.NewGuid();
+				var loginModel = new LoginModel()
+				{
+					Email = _registerModel.Email,
+					Password = _registerModel.Password
+				};
+				BlazorCookieLoginMiddleware.Logins[key] = loginModel;
+				Navigation.NavigateTo($"/login?key={key}", true);
+			}
+		}
 
+		private  void ValidSubmit(EditContext editContext)
+		{
 			if (editContext == null || !editContext.Validate())
 			{
 				return;
 			}
 
-			var mapperConfig = new MapperConfiguration(cfg => cfg.CreateMap<RegisterModel, User>()
-					   .ForMember("UserName", opt => opt.MapFrom(x => x.Name)));
-			var mapper = new Mapper(mapperConfig);
-			var user = mapper.Map<RegisterModel, User>(registerModel);
-			var result = await AccountService.Register(user, registerModel.Password);
-
-			if (result.Succeeded)
-			{
-				Guid key = Guid.NewGuid();
-				var loginModel = new LoginModel()
-				{
-					Email = registerModel.Email,
-					Password = registerModel.Password
-				};
-				BlazorCookieLoginMiddleware.Logins[key] = loginModel;
-				Navigation.NavigateTo($"/login?key={key}", true);
-			}
-			else
-			{
-				foreach (var error in result.Errors)
-				{
-					messageStore.Add(() => registerModel.Email, error.Description);
-				}
-			}
-
-			if (editContext.GetValidationMessages().Count() > 0)
-			{
-				editContext.NotifyValidationStateChanged();
-			}
+			Dispatcher.Dispatch(new RegisterAction(_registerModel.Name, _registerModel.Email, _registerModel.Password));
 		}
 	}
 }

@@ -1,25 +1,26 @@
-﻿<EditForm EditContext="editContext" OnSubmit="ValidSubmit">
+﻿<EditForm Model="_registerModel" OnSubmit="ValidSubmit">
     <Header>Register</Header>
 	<DataAnnotationsValidator />
+    <ValidationErrors Errors="@RegisterState.Value.Errors.Select(x => x.Description).ToList()"></ValidationErrors>
 	<ValidationSummary />
 	<InputRow>
         <InputComponent Title="Name">
-            <InputText id="name" class="form-control" @bind-Value="registerModel.Name" />
+            <InputText id="name" class="form-control" @bind-Value="_registerModel.Name" />
         </InputComponent>
     </InputRow>
     <InputRow>
         <InputComponent Title="Email">
-            <InputText class="form-control" @bind-Value="registerModel.Email" />
+            <InputText class="form-control" @bind-Value="_registerModel.Email" />
         </InputComponent>
     </InputRow>
     <InputRow>
         <InputComponent Title="Password">
-            <InputText type="password" class="form-control" @bind-Value="registerModel.Password" />
+            <InputText type="password" class="form-control" @bind-Value="_registerModel.Password" />
         </InputComponent>
     </InputRow>
     <InputRow>
         <InputComponent Title="Confirm password">
-            <InputText type="password" class="form-control" @bind-Value="registerModel.PasswordConfirm" />
+            <InputText type="password" class="form-control" @bind-Value="_registerModel.PasswordConfirm" />
         </InputComponent>
     </InputRow>
     <SubmitButton Title="Register" />
