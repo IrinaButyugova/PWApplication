@@ -36,7 +36,7 @@ namespace PWBlazorApplication.Components
             }
         }
 
-        private async void ValidSubmit(EditContext editContext)
+        private void ValidSubmit(EditContext editContext)
 		{
             if (editContext == null || !editContext.Validate())
 			{
