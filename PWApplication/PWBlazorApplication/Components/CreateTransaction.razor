@@ -1,21 +1,21 @@
 ﻿<EditForm Model="_createModel" OnSubmit="ValidSubmit">
 	<DataAnnotationsValidator />
-	<ValidationErrors Errors="@_validationMessages"></ValidationErrors>
+	<PWValidationErrors Errors="@_validationMessages"></PWValidationErrors>
 	<ValidationSummary />
-	<InputRow>
-		<InputComponent Title="Recipient Name">
+	<PWInputRow>
+		<PWInputComponent Title="Recipient Name">
 			<InputSelect class="form-select" name="RecipientName" @bind-Value="TransactionState.Value.Model.RecipientName">
 				@foreach (var user in @TransactionState.Value.Model.Users)
 				{
 					<option value="@user">@user</option>
 				}
 			</InputSelect>
-		</InputComponent>
-	</InputRow>
-	<InputRow>
-		<InputComponent Title="Amount">
+		</PWInputComponent>
+	</PWInputRow>
+	<PWInputRow>
+		<PWInputComponent Title="Amount">
 			<InputNumber name="Amount" class="form-control" @bind-Value="TransactionState.Value.Model.Amount" />
-		</InputComponent>
-	</InputRow>
-	<SubmitButton Title="Create transaction" />
+		</PWInputComponent>
+	</PWInputRow>
+	<PWSubmitButton Title="Create transaction" />
 </EditForm>

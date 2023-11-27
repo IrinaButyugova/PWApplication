@@ -1,0 +1,10 @@
+﻿using Microsoft.AspNetCore.Components;
+
+namespace PWComponents.Components
+{
+    public partial class PWValidationErrors
+    {
+        [Parameter]
+        public List<string> Errors { get; set; } = new List<string>();
+    }
+}

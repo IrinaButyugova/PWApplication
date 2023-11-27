@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <Header>Please signed in.</Header>
+    <PWHeader>Please signed in.</PWHeader>
     @if(_loginVisible)
     {
         <Login OnCancelClickCallback="@CancelLogin"></Login>
@@ -10,7 +10,7 @@
     }
     else
     {
-        <Button Title="Login" OnClickCallback="Login" />
-        <Button Title="Registration" OnClickCallback="Registration" />
+        <PWButton Title="Login" OnClickCallback="Login" />
+        <PWButton Title="Registration" OnClickCallback="Registration" />
     }
 </div>

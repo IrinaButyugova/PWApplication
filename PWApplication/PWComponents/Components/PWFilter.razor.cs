@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using PWBlazorApplication.Models;
+using PWComponents.Models;
 
-namespace PWBlazorApplication.Components
+namespace PWComponents.Components
 {
-	public partial class Filter
+	public partial class PWFilter
 	{
 		[Parameter]
 		public FilterModel FilterModel { get; set; }

@@ -27,6 +27,7 @@
     <ProjectReference Include="..\PWApplication.BLL\PWApplication.BLL.csproj" />
     <ProjectReference Include="..\PWApplication.DAL\PWApplication.DAL.csproj" />
     <ProjectReference Include="..\PWApplication.Domain\PWApplication.Domain.csproj" />
+    <ProjectReference Include="..\PWComponents\PWComponents.csproj" />
   </ItemGroup>
 
 </Project>

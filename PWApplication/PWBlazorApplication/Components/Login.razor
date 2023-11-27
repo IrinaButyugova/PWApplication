@@ -1,18 +1,18 @@
 ﻿<EditForm Model="_loginModel" OnSubmit="ValidSubmit">
-    <Header>Login</Header>
+    <PWHeader>Login</PWHeader>
     <DataAnnotationsValidator />
-    <ValidationErrors Errors="@LoginState.Value.Errors.Select(x => x.Description).ToList()"></ValidationErrors>
+    <PWValidationErrors Errors="@LoginState.Value.Errors.Select(x => x.Description).ToList()"></PWValidationErrors>
     <ValidationSummary />
-    <InputRow>
-        <InputComponent Title="Email">
+    <PWInputRow>
+        <PWInputComponent Title="Email">
             <InputText id="email" class="form-control" @bind-Value="_loginModel.Email" />
-        </InputComponent>
-    </InputRow>
-    <InputRow>
-        <InputComponent Title="Password">
+        </PWInputComponent>
+    </PWInputRow>
+    <PWInputRow>
+        <PWInputComponent Title="Password">
             <InputText type="password" id="password" class="form-control" @bind-Value="_loginModel.Password" />
-        </InputComponent>
-    </InputRow>
-    <SubmitButton />
-    <Button Title="Cancel" OnClickCallback="OnCancelClickCallback" />
+        </PWInputComponent>
+    </PWInputRow>
+    <PWSubmitButton />
+    <PWButton Title="Cancel" OnClickCallback="OnCancelClickCallback" />
 </EditForm>

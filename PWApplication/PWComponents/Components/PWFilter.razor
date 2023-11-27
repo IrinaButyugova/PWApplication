@@ -1,24 +1,24 @@
 ﻿<EditForm Model="@FilterModel" OnSubmit="OnClickCallback">
-    <InputRow>
-        <FilterComponent Title="Start date">
+    <PWInputRow>
+        <PWFilterComponent Title="Start date">
             <InputDate class="form-control" @bind-Value="FilterModel.StartDate" />
-        </FilterComponent>
-        <FilterComponent Title="End date">
+        </PWFilterComponent>
+        <PWFilterComponent Title="End date">
             <InputDate class="form-control" @bind-Value="FilterModel.EndDate" />
-        </FilterComponent>
-    </InputRow>
-    <InputRow>
-        <FilterComponent Title="Correspondent name">
+        </PWFilterComponent>
+    </PWInputRow>
+    <PWInputRow>
+        <PWFilterComponent Title="Correspondent name">
             <InputText id="email" class="form-control" @bind-Value="FilterModel.CorrespondentName" />
-        </FilterComponent>
-    </InputRow>
-    <InputRow>
-        <FilterComponent Title="Start amount">
+        </PWFilterComponent>
+    </PWInputRow>
+    <PWInputRow>
+        <PWFilterComponent Title="Start amount">
             <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.StartAmount" />
-        </FilterComponent>
-        <FilterComponent Title="End amount">
+        </PWFilterComponent>
+        <PWFilterComponent Title="End amount">
             <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.EndAmount" />
-        </FilterComponent>
-    </InputRow>
-    <SubmitButton Title="Filter" />
+        </PWFilterComponent>
+    </PWInputRow>
+    <PWSubmitButton Title="Filter" />
 </EditForm>

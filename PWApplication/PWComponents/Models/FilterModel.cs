@@ -1,4 +1,4 @@
-﻿namespace PWBlazorApplication.Models
+﻿namespace PWComponents.Models
 {
     public class FilterModel
     {

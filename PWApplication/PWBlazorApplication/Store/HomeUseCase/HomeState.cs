@@ -1,7 +1,7 @@
 ﻿using Fluxor;
 using PWApplication.BLL.Enums;
 using PWApplication.Domain.Models;
-using PWBlazorApplication.Models;
+using PWComponents.Models;
 
 namespace PWBlazorApplication.Store.HomeUseCase
 {

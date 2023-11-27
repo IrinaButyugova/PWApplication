@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace PWBlazorApplication.Components
+namespace PWComponents.Components
 {
-	public partial class FilterComponent
+	public partial class PWInputComponent
 	{
 		[Parameter]
 		public string Title { get; set; } = "";

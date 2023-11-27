@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "Hash": "pvcq8/NYrVzLduhWxQABl+AxR2qBTDsqShnkBOpBp/Q=",
+  "Source": "PWComponents",
+  "BasePath": "_content/PWComponents",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "PWComponents\\wwwroot",
+      "Source": "PWComponents",
+      "ContentRoot": "C:\\git\\PWApplication\\PWApplication\\PWComponents\\wwwroot\\",
+      "BasePath": "_content/PWComponents",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\git\\PWApplication\\PWApplication\\PWComponents\\wwwroot\\background.png",
+      "SourceId": "PWComponents",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\git\\PWApplication\\PWApplication\\PWComponents\\wwwroot\\",
+      "BasePath": "_content/PWComponents",
+      "RelativePath": "background.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\background.png"
+    },
+    {
+      "Identity": "C:\\git\\PWApplication\\PWApplication\\PWComponents\\wwwroot\\exampleJsInterop.js",
+      "SourceId": "PWComponents",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\git\\PWApplication\\PWApplication\\PWComponents\\wwwroot\\",
+      "BasePath": "_content/PWComponents",
+      "RelativePath": "exampleJsInterop.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\exampleJsInterop.js"
+    }
+  ]
+}

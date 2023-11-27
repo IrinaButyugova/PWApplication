@@ -1,13 +1,13 @@
 ﻿<div class="container">
-	<Header>@HomeState.Value.Name</Header>
-	<Header>PW balance: @HomeState.Value.Balance</Header>
+	<PWHeader>@HomeState.Value.Name</PWHeader>
+	<PWHeader>PW balance: @HomeState.Value.Balance</PWHeader>
 	<div class="form-group mb-3">
 		<CreateTransaction Id="@_transactionId" OnCreateCallback="FetchHomeData"></CreateTransaction>
 	</div>
 	<div class="mb-3">
 		@if (@HomeState.Value.FilterModel != null)
 		{
-			<Filter FilterModel="@HomeState.Value.FilterModel" OnClickCallback="@(() => FetchTransactions(HomeState.Value.CurrentSort))"></Filter>
+			<PWFilter FilterModel="@HomeState.Value.FilterModel" OnClickCallback="@(() => FetchTransactions(HomeState.Value.CurrentSort))"></PWFilter>
 		}
 	</div>
 	<table class="table">
@@ -42,7 +42,7 @@
 						<td>
 							@if (transaction.Type == PWApplication.Domain.Models.TransactionType.Debit)
 							{
-								<Button Title="Repeat" OnClickCallback="@(() => RepeatTransaction(@transaction.Id))" />
+								<PWButton Title="Repeat" OnClickCallback="@(() => RepeatTransaction(@transaction.Id))" />
 							}
 						</td>
 					</tr>
@@ -50,5 +50,5 @@
 			}
 		</tbody>
 	</table>
-	<Button Title="Logout" OnClickCallback="Logout" />
+	<PWButton Title="Logout" OnClickCallback="Logout" />
 </div>

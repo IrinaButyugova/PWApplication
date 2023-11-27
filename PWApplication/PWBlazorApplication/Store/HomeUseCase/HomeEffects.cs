@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using PWApplication.BLL.Enums;
 using PWApplication.BLL.Services;
-using PWApplication.Domain.Models;
-using PWBlazorApplication.Components;
-using PWBlazorApplication.Models;
+using PWComponents.Models;
 
 namespace PWBlazorApplication.Store.HomeUseCase
 {

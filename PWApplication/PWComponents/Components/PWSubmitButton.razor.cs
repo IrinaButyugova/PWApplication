@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace PWBlazorApplication.Components
+namespace PWComponents.Components
 {
-	public partial class SubmitButton
+	public partial class PWSubmitButton
 	{
 		[Parameter]
 		public string Title { get; set; } = "Submit";
