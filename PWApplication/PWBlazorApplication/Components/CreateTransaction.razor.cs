@@ -52,7 +52,7 @@ namespace PWBlazorApplication.Components
 			Dispatcher.Dispatch(new FetchTransactionDataAction(Id));
 		}
 
-		private async void ValidSubmit(EditContext editContext)
+		public void ValidSubmit(EditContext editContext)
 		{
 			_validationMessages.Clear();
 

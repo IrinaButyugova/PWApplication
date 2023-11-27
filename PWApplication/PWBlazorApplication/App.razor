@@ -1,11 +1,34 @@
 ﻿<Fluxor.Blazor.Web.StoreInitializer />
+
 <Router AppAssembly="@typeof(Program).Assembly">
-    <Found Context="routeData">
-       <AuthorizeRouteView RouteData="routeData"  />
-    </Found>
-    <NotFound>
-        <LayoutView>
-            <h3>Page Not Found</h3>
-        </LayoutView>
-    </NotFound>
+	<Found Context="routeData">
+		<ErrorBoundary>
+			<ChildContent>
+				<AuthorizeRouteView RouteData="routeData" />
+			</ChildContent>
+			<ErrorContent>
+				@if (context is ArgumentException)
+				{
+					<p>&#128165; ArgumentException: @context.Message</p>
+				}
+				else if (context is IndexOutOfRangeException)
+				{
+					<p>&#128165; IndexOutOfRangeException: @context.Message</p>
+				}
+				else if (context is NullReferenceException)
+				{
+					<p>&#128165; NullReferenceException: @context.Message</p>
+				}
+				else
+				{
+					<p>&#128165; @context.Message</p>
+				}
+			</ErrorContent>
+		</ErrorBoundary>
+	</Found>
+	<NotFound>
+		<LayoutView>
+			<h3>Page Not Found</h3>
+		</LayoutView>
+	</NotFound>
 </Router>
