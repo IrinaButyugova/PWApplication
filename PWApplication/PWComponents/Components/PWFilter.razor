@@ -14,10 +14,10 @@
     </PWInputRow>
     <PWInputRow>
         <PWFilterComponent Title="Start amount">
-            <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.StartAmount" />
+            <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.StartAmount" Min="0"/>
         </PWFilterComponent>
         <PWFilterComponent Title="End amount">
-            <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.EndAmount" />
+            <InputNumber name="Amount" class="form-control" @bind-Value="FilterModel.EndAmount" Min="0"/>
         </PWFilterComponent>
     </PWInputRow>
     <PWSubmitButton Title="Filter" />
