@@ -1,4 +1,4 @@
-﻿<EditForm Model="@FilterModel" OnSubmit="OnClickCallback">
+﻿<EditForm Model="@FilterModel" id="filterForm" OnSubmit="OnClickCallback">
     <PWInputRow>
         <PWFilterComponent Title="Start date">
             <InputDate class="form-control" @bind-Value="FilterModel.StartDate" />
@@ -21,4 +21,5 @@
         </PWFilterComponent>
     </PWInputRow>
     <PWSubmitButton Title="Filter" />
+    <PWButton Title="Clear" OnClickCallback="Clear"></PWButton>
 </EditForm>
