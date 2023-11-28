@@ -1,0 +1,21 @@
+﻿<EditForm Model="CreateModel" OnSubmit="OnSubmitCallback">
+	<DataAnnotationsValidator />
+	<PWValidationErrors Errors="@Errors"></PWValidationErrors>
+	<ValidationSummary />
+	<PWInputRow>
+		<PWInputComponent Title="Recipient Name">
+			<InputSelect class="form-select" name="RecipientName" @bind-Value="CreateModel.RecipientName">
+				@foreach (var user in Users)
+				{
+					<option value="@user">@user</option>
+				}
+			</InputSelect>
+		</PWInputComponent>
+	</PWInputRow>
+	<PWInputRow>
+		<PWInputComponent Title="Amount">
+			<InputNumber name="Amount" class="form-control" @bind-Value="CreateModel.Amount" />
+		</PWInputComponent>
+	</PWInputRow>
+	<PWSubmitButton Title="Create transaction" />
+</EditForm>

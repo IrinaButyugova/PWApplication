@@ -1,6 +1,6 @@
 ﻿using PWApplication.BLL.Errors;
 
-namespace PWBlazorApplication.Store.TransactionUseCase
+namespace PWBlazorApplication.Store.HomeUseCase
 {
 	public class CreateTransactionResultAction
 	{

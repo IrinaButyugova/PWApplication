@@ -1,14 +1,14 @@
 ﻿using Fluxor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using PWApplication.BLL.Enums;
-using PWApplication.Domain.Models;
 using PWBlazorApplication.Enums;
 using PWBlazorApplication.Store.HomeUseCase;
 
 namespace PWBlazorApplication.Components
 {
     public partial class Home
-    {
+	{
 		[Inject]
         NavigationManager Navigation { get; set; }
 		[Inject]
@@ -16,12 +16,11 @@ namespace PWBlazorApplication.Components
 		[Inject]
 		public IDispatcher Dispatcher { get; set; }
 
-        private int _transactionId = 0;
-
         protected override void OnInitialized()
         {
 			base.OnInitialized();
-            FetchHomeData();
+			HomeState.StateChanged += OnStateChanged;
+			FetchHomeData();
         }
 
         private void FetchHomeData()
@@ -36,8 +35,9 @@ namespace PWBlazorApplication.Components
 
         private void RepeatTransaction(int id)
         {
-            _transactionId = id;
-        }
+			var action = new FetchTransactionDataAction(id);
+			Dispatcher.Dispatch(action);
+		}
 
         private string GetSortStyle(ColumnType columnType)
         {
@@ -80,7 +80,6 @@ namespace PWBlazorApplication.Components
 
         private void FetchTransactions(SortState sortState)
         {
-            _transactionId = 0;
             var action = new FetchTransactionsAction()
 			{
 				UserName = HomeState.Value.Name,
@@ -92,6 +91,25 @@ namespace PWBlazorApplication.Components
 				SortState = sortState
 			};
 			Dispatcher.Dispatch(action);
+        }
+
+		private void OnStateChanged(object? sender, EventArgs e)
+		{
+			if (HomeState.Value.CreationSucceeded)
+			{
+				FetchHomeData();
+			}
+		}
+
+		public void CreateTransactionSubmit(EditContext editContext)
+		{
+			if (editContext == null || !editContext.Validate())
+			{
+				return;
+			}
+
+			var action = new CreateTransactionAction(HomeState.Value.Name, HomeState.Value.CreateTransactionModel.RecipientName, HomeState.Value.CreateTransactionModel.Amount);
+            Dispatcher.Dispatch(action);
         }
 	}
 }

@@ -2,7 +2,7 @@
 	<PWHeader>@HomeState.Value.Name</PWHeader>
 	<PWHeader>PW balance: @HomeState.Value.Balance</PWHeader>
 	<div class="form-group mb-3">
-		<CreateTransaction Id="@_transactionId" OnCreateCallback="FetchHomeData"></CreateTransaction>
+		<PWCreateTransaction Users="@HomeState.Value.Users" CreateModel="@HomeState.Value.CreateTransactionModel" Errors="@HomeState.Value.CreationErrors.Select(x => x.Description)" OnSubmitCallback="CreateTransactionSubmit"></PWCreateTransaction>
 	</div>
 	<div class="mb-3">
 		@if (@HomeState.Value.FilterModel != null)

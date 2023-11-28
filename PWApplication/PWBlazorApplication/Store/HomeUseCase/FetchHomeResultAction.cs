@@ -13,14 +13,16 @@ namespace PWBlazorApplication.Store.HomeUseCase
         public FilterModel FilterModel { get; init; }
 
         public SortState CurrentSort { get; init; }
+		public IEnumerable<string> Users { get; init; } = new List<string>();
 
-        public FetchHomeResultAction(string name, decimal balance, IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort)
+		public FetchHomeResultAction(string name, decimal balance, IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort, IEnumerable<string> users)
         {
             Name = name;
             Balance = balance;
             Transactions = transactions;
             FilterModel = filterModel;
             CurrentSort = currentSort;
+            Users = users;
         }
     }
 }

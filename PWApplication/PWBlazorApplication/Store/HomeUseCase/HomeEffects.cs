@@ -11,12 +11,14 @@ namespace PWBlazorApplication.Store.HomeUseCase
         private AuthenticationStateProvider _authenticationStateProvider;
         private IAccountService _accountService;
         private ITransactionService _transactionService;
+		private ITransferService _transferService;
 
-        public HomeEffects(AuthenticationStateProvider authenticationStateProvider, IAccountService accountService, ITransactionService transactionService)
+		public HomeEffects(AuthenticationStateProvider authenticationStateProvider, IAccountService accountService, ITransactionService transactionService, ITransferService transferService)
         {
             _authenticationStateProvider = authenticationStateProvider;
             _accountService = accountService;
             _transactionService = transactionService;
+            _transferService = transferService;
         }
 
         [EffectMethod]
@@ -29,7 +31,7 @@ namespace PWBlazorApplication.Store.HomeUseCase
                 return;
             }
 
-            var user = _accountService.GetUser(stateUser.Identity.Name);
+			var user = _accountService.GetUser(stateUser.Identity.Name);
             if (user == null)
             {
                 return;
@@ -37,8 +39,13 @@ namespace PWBlazorApplication.Store.HomeUseCase
 
             var filter = new FilterModel();
             var currentSort = SortState.DateDesc;
-            var transactions = _transactionService.GetTransactions(user.UserName, filter.StartDate, filter.EndDate, filter.CorrespondentName, filter.StartAmount, filter.EndAmount, currentSort);
-            dispatcher.Dispatch(new FetchHomeResultAction(user.UserName, user.Balance, transactions, filter, currentSort));
+			var transactions = _transactionService.GetTransactions(user.UserName, filter.StartDate, filter.EndDate, filter.CorrespondentName, filter.StartAmount, filter.EndAmount, currentSort);
+
+			var users = new List<string>();
+			users.Add("");
+			users.AddRange(_accountService.GetOtherUsersNames(user.UserName));
+
+			dispatcher.Dispatch(new FetchHomeResultAction(user.UserName, user.Balance, transactions, filter, currentSort, users));
         }
 
 		[EffectMethod]
@@ -57,5 +64,18 @@ namespace PWBlazorApplication.Store.HomeUseCase
             dispatcher.Dispatch(new FetchTransactionsResultAction(transactions, filter, action.SortState));
 		}
 
+		[EffectMethod]
+		public async Task HandleFetchTransactionDataAction(FetchTransactionDataAction action, IDispatcher dispatcher)
+		{
+			var transaction = _transactionService.GetTransaction(action.Id);
+			dispatcher.Dispatch(new FetchTransactionResultAction(transaction.Correspondent.UserName, transaction.Amount));
+		}
+
+		[EffectMethod]
+		public async Task HandleCreateTransactionAction(CreateTransactionAction action, IDispatcher dispatcher)
+		{
+			var result = _transferService.CreateTransaction(action.UserName, action.RecipientName, action.Amount);
+			dispatcher.Dispatch(new CreateTransactionResultAction(result.Succeeded, result.Errors));
+		}
 	}
 }
