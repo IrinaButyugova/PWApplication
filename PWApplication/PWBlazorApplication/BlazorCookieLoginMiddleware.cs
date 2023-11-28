@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Concurrent;
 using PWApplication.Domain.Models;
-using PWBlazorApplication.Models;
+using PWComponents.Models;
 
 namespace PWBlazorApplication
 {

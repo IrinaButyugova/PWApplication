@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PWBlazorApplication.Models
+namespace PWComponents.Models
 {
     public class RegisterModel
     {

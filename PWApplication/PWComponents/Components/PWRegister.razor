@@ -1,26 +1,26 @@
-﻿<EditForm Model="_registerModel" OnSubmit="ValidSubmit">
+﻿<EditForm Model="RegisterModel" OnSubmit="OnSubmitCallback">
     <PWHeader>Register</PWHeader>
 	<DataAnnotationsValidator />
-    <PWValidationErrors Errors="@RegisterState.Value.Errors.Select(x => x.Description).ToList()"></PWValidationErrors>
+    <PWValidationErrors Errors="Errors"></PWValidationErrors>
 	<ValidationSummary />
     <PWInputRow>
         <PWInputComponent Title="Name">
-            <InputText id="name" class="form-control" @bind-Value="_registerModel.Name" />
+            <InputText id="name" class="form-control" @bind-Value="RegisterModel.Name" />
         </PWInputComponent>
     </PWInputRow>
     <PWInputRow>
         <PWInputComponent Title="Email">
-            <InputText class="form-control" @bind-Value="_registerModel.Email" />
+            <InputText class="form-control" @bind-Value="RegisterModel.Email" />
         </PWInputComponent>
     </PWInputRow>
     <PWInputRow>
         <PWInputComponent Title="Password">
-            <InputText type="password" class="form-control" @bind-Value="_registerModel.Password" />
+            <InputText type="password" class="form-control" @bind-Value="RegisterModel.Password" />
         </PWInputComponent>
     </PWInputRow>
     <PWInputRow>
         <PWInputComponent Title="Confirm password">
-            <InputText type="password" class="form-control" @bind-Value="_registerModel.PasswordConfirm" />
+            <InputText type="password" class="form-control" @bind-Value="RegisterModel.PasswordConfirm" />
         </PWInputComponent>
     </PWInputRow>
     <PWSubmitButton Title="Register" />

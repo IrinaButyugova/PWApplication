@@ -2,11 +2,11 @@
     <PWHeader>Please signed in.</PWHeader>
     @if(_loginVisible)
     {
-        <Login OnCancelClickCallback="@CancelLogin"></Login>
+        <PWLogin OnCancelClickCallback="@CancelLogin" OnSubmitCallback="@LoginSubmit" Errors="@StartState.Value.Errors.Select(x => x.Description).ToList()" LoginModel="_loginModel"></PWLogin>
     }
     else if(_registrationVisible)
     {
-        <Register OnCancelClickCallback="@CancelRegistration"></Register>
+        <PWRegister OnCancelClickCallback="@CancelRegistration" OnSubmitCallback="@RegisterSubmit" Errors="@StartState.Value.Errors.Select(x => x.Description).ToList()" RegisterModel="_registerModel"></PWRegister>
     }
     else
     {

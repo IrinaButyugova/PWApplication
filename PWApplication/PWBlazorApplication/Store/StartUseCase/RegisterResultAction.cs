@@ -1,12 +1,12 @@
 ﻿using PWApplication.BLL.Result;
 
-namespace PWBlazorApplication.Store.LoginUseCase
+namespace PWBlazorApplication.Store.StartUseCase
 {
-    public record CheckSignInResultAction
+    public record RegisterResultAction
     {
         public PWResult Result { get; init; }
 
-        public CheckSignInResultAction(PWResult result)
+        public RegisterResultAction(PWResult result)
         {
             Result = result;
         }

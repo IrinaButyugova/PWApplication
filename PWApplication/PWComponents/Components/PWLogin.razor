@@ -1,16 +1,16 @@
-﻿<EditForm Model="_loginModel" OnSubmit="ValidSubmit">
+﻿<EditForm Model="LoginModel" OnSubmit="OnSubmitCallback">
     <PWHeader>Login</PWHeader>
     <DataAnnotationsValidator />
-    <PWValidationErrors Errors="@LoginState.Value.Errors.Select(x => x.Description).ToList()"></PWValidationErrors>
+    <PWValidationErrors Errors="@Errors"></PWValidationErrors>
     <ValidationSummary />
     <PWInputRow>
         <PWInputComponent Title="Email">
-            <InputText id="email" class="form-control" @bind-Value="_loginModel.Email" />
+            <InputText id="email" class="form-control" @bind-Value="LoginModel.Email" />
         </PWInputComponent>
     </PWInputRow>
     <PWInputRow>
         <PWInputComponent Title="Password">
-            <InputText type="password" id="password" class="form-control" @bind-Value="_loginModel.Password" />
+            <InputText type="password" id="password" class="form-control" @bind-Value="LoginModel.Password" />
         </PWInputComponent>
     </PWInputRow>
     <PWSubmitButton />

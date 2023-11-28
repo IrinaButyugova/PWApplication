@@ -1,4 +1,4 @@
-﻿namespace PWBlazorApplication.Store.LoginUseCase
+﻿namespace PWBlazorApplication.Store.StartUseCase
 {
     public record CheckSignInAction
     {

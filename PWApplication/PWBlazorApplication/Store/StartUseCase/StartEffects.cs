@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using PWApplication.BLL.Errors;
 using PWApplication.BLL.Result;
 using PWApplication.BLL.Services;
+using PWApplication.Domain.Models;
 
-namespace PWBlazorApplication.Store.LoginUseCase
+namespace PWBlazorApplication.Store.StartUseCase
 {
-    public class LoginEffects
+    public class StartEffects
     {
         private IAccountService _accountService;
-        public LoginEffects(IAccountService accountService)
+        public StartEffects(IAccountService accountService)
         {
             _accountService = accountService;
         }
@@ -61,7 +62,20 @@ namespace PWBlazorApplication.Store.LoginUseCase
                 result.Succeeded = true;
             }
 
-            dispatcher.Dispatch(new CheckSignInResultAction(result));
+            dispatcher.Dispatch(new LoginResultAction(result));
+        }
+
+        [EffectMethod]
+        public async Task HandleRegisterAction(RegisterAction action, IDispatcher dispatcher)
+        {
+            var user = new User()
+            {
+                Email = action.Email,
+                UserName = action.Name
+            };
+
+            var result = await _accountService.Register(user, action.Password);
+            dispatcher.Dispatch(new RegisterResultAction(result));
         }
     }
 }
