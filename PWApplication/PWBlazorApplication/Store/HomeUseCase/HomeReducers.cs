@@ -10,7 +10,7 @@ namespace PWBlazorApplication.Store.HomeUseCase
 		public static HomeState ReduceFetchHomeDataAction(HomeState state, FetchHomeResultAction action)
 		{
 			var newState = new HomeState(action.Name, action.Balance, action.Transactions, action.FilterModel,
-			action.CurrentSort, action.Users);
+			action.CurrentSort, action.Users, 1, action.PagesCount);
 			return newState;
 		}
 
@@ -18,7 +18,7 @@ namespace PWBlazorApplication.Store.HomeUseCase
 		public static HomeState ReduceFetchTransactionAction(HomeState state, FetchTransactionsResultAction action) 
 		{
 			var newState = state with { Transactions = action.Transactions, FilterModel = action.FilterModel, CurrentSort = action.CurrentSort, CreationSucceeded = false, 
-				CreationErrors = new List<Error>() };
+				CreationErrors = new List<Error>(), PageNumber = action.PageNumber, PagesCount = action.PagesCount};
 			return newState;
 		}
 

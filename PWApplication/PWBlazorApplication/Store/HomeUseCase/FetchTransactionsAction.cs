@@ -11,5 +11,7 @@ namespace PWBlazorApplication.Store.HomeUseCase
 		public decimal? StartAmount { get; init; }
 		public decimal? EndAmount { get; init; }
 		public SortState SortState { get; set; }
+		public int PageNumber { get; set; }
+		public int PageSize { get; set; }
 	}
 }

@@ -10,6 +10,9 @@ namespace PWApplication.BLL.Services
         Transaction GetTransaction(int id);
 
         List<Transaction> GetTransactions(string userName, DateTime? startDate, DateTime? endDate, string correspondentName,
-            decimal? startAmount, decimal? endAmount, SortState sortOrder);
+            decimal? startAmount, decimal? endAmount, SortState sortOrder, int pageNumber = 1, int pageSize = 0);
+
+        int GetTransactionsCount(string userName, DateTime? startDate, DateTime? endDate, string correspondentName,
+            decimal? startAmount, decimal? endAmount);
     }
 }

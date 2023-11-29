@@ -39,19 +39,24 @@ namespace PWBlazorApplication.Store.HomeUseCase
 
             var filter = new FilterModel();
             var currentSort = SortState.DateDesc;
-			var transactions = _transactionService.GetTransactions(user.UserName, filter.StartDate, filter.EndDate, filter.CorrespondentName, filter.StartAmount, filter.EndAmount, currentSort);
+			var transactions = _transactionService.GetTransactions(user.UserName, filter.StartDate, filter.EndDate, filter.CorrespondentName, filter.StartAmount, filter.EndAmount, currentSort, 
+                1, action.PageSize);
 
 			var users = new List<string>();
 			users.Add("");
 			users.AddRange(_accountService.GetOtherUsersNames(user.UserName));
 
-			dispatcher.Dispatch(new FetchHomeResultAction(user.UserName, user.Balance, transactions, filter, currentSort, users));
+            var transactionsCount = _transactionService.GetTransactionsCount(user.UserName, filter.StartDate, filter.EndDate, filter.CorrespondentName, filter.StartAmount, filter.EndAmount);
+            var pagesCount = GetPagesCount(transactionsCount, action.PageSize);
+
+			dispatcher.Dispatch(new FetchHomeResultAction(user.UserName, user.Balance, transactions, filter, currentSort, users, pagesCount));
         }
 
 		[EffectMethod]
 		public async Task HandleFetchTransactionsActions(FetchTransactionsAction action, IDispatcher dispatcher)
 		{
-			var transactions = _transactionService.GetTransactions(action.UserName, action.StartDate, action.EndDate, action.CorrespondentName, action.StartAmount, action.EndAmount, action.SortState);
+			var transactions = _transactionService.GetTransactions(action.UserName, action.StartDate, action.EndDate, action.CorrespondentName, action.StartAmount, action.EndAmount, action.SortState,
+                action.PageNumber, action.PageSize);
             var filter = new FilterModel()
             {
                 StartDate = action.StartDate,
@@ -59,9 +64,12 @@ namespace PWBlazorApplication.Store.HomeUseCase
                 CorrespondentName = action.CorrespondentName,
                 StartAmount = action.StartAmount,
                 EndAmount = action.EndAmount
-            };
+			};
 
-            dispatcher.Dispatch(new FetchTransactionsResultAction(transactions, filter, action.SortState));
+			var transactionsCount = _transactionService.GetTransactionsCount(action.UserName, action.StartDate, action.EndDate, action.CorrespondentName, action.StartAmount, action.EndAmount);
+			var pagesCount = GetPagesCount(transactionsCount, action.PageSize);
+
+			dispatcher.Dispatch(new FetchTransactionsResultAction(transactions, filter, action.SortState, action.PageNumber, pagesCount));
 		}
 
 		[EffectMethod]
@@ -76,6 +84,11 @@ namespace PWBlazorApplication.Store.HomeUseCase
 		{
 			var result = _transferService.CreateTransaction(action.UserName, action.RecipientName, action.Amount);
 			dispatcher.Dispatch(new CreateTransactionResultAction(result.Succeeded, result.Errors));
+		}
+
+        private int GetPagesCount(int transactionsCount, int pageSize)
+        {
+			return (int)Math.Ceiling(transactionsCount / (double)pageSize);
 		}
 	}
 }

@@ -10,12 +10,16 @@ namespace PWBlazorApplication.Store.HomeUseCase
 		public FilterModel FilterModel { get; init; }
 
 		public SortState CurrentSort { get; init; }
+		public int PageNumber { get; init; }
+		public int PagesCount { get; init; }
 
-		public FetchTransactionsResultAction(IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort)
+		public FetchTransactionsResultAction(IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort, int pageNumber, int pagesCount)
 		{
 			Transactions = transactions;
 			FilterModel = filterModel;
 			CurrentSort = currentSort;
+			PageNumber = pageNumber;
+			PagesCount = pagesCount;
 		}
 	}
 }

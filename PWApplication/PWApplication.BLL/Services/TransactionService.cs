@@ -22,30 +22,9 @@ namespace PWApplication.BLL.Services
         }
 
         public List<Transaction> GetTransactions(string userName, DateTime? startDate, DateTime? endDate, 
-            string correspondentName, decimal? startAmount, decimal? endAmount, SortState sortOrder)
+            string correspondentName, decimal? startAmount, decimal? endAmount, SortState sortOrder, int pageNumber = 1, int pageSize = 0)
         {
-            var transactions = _repositoryService.Transactions.GetAllByUserName(userName);
-
-            if (startDate.HasValue)
-            {
-                transactions = transactions.Where(x => x.Date >= startDate);
-            }
-            if (endDate.HasValue)
-            {
-                transactions = transactions.Where(x => x.Date <= endDate);
-            }
-            if (!String.IsNullOrEmpty(correspondentName))
-            {
-                transactions = transactions.Where(x => x.Correspondent.UserName.Contains(correspondentName));
-            }
-            if (startAmount.HasValue)
-            {
-                transactions = transactions.Where(x => x.Amount >= startAmount);
-            }
-            if(endAmount.HasValue)
-            {
-                transactions = transactions.Where(x => x.Amount <= endAmount);
-            }
+            var transactions = GetTransactions(userName, startDate, endDate, correspondentName, startAmount, endAmount);
 
             switch (sortOrder)
             {
@@ -69,7 +48,48 @@ namespace PWApplication.BLL.Services
                     break;
             }
 
+            if(pageSize > 0)
+            {
+                transactions = transactions.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+			}
+
             return transactions.ToList();
         }
-    }
+
+		public int GetTransactionsCount(string userName, DateTime? startDate, DateTime? endDate, string correspondentName,
+			decimal? startAmount, decimal? endAmount)
+        {
+			var transactions = GetTransactions(userName, startDate, endDate, correspondentName, startAmount, endAmount);
+            return transactions.Count();
+		}
+
+        private IEnumerable<Transaction> GetTransactions(string userName, DateTime? startDate, DateTime? endDate, string correspondentName,
+			decimal? startAmount, decimal? endAmount)
+        {
+			var transactions = _repositoryService.Transactions.GetAllByUserName(userName);
+
+			if (startDate.HasValue)
+			{
+				transactions = transactions.Where(x => x.Date >= startDate);
+			}
+			if (endDate.HasValue)
+			{
+				transactions = transactions.Where(x => x.Date <= endDate);
+			}
+			if (!String.IsNullOrEmpty(correspondentName))
+			{
+				transactions = transactions.Where(x => x.Correspondent.UserName.Contains(correspondentName));
+			}
+			if (startAmount.HasValue)
+			{
+				transactions = transactions.Where(x => x.Amount >= startAmount);
+			}
+			if (endAmount.HasValue)
+			{
+				transactions = transactions.Where(x => x.Amount <= endAmount);
+			}
+
+            return transactions;
+		}
+	}
 }

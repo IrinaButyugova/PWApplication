@@ -50,5 +50,11 @@
 			}
 		</tbody>
 	</table>
-	<PWButton Title="Logout" OnClickCallback="Logout" />
+	<div class="mb-3">
+		<PWButton Title="Previous" OnClickCallback="GetPreviousPage" IsDisabled="!HasPreviousPage()" />
+		<PWButton Title="Next" OnClickCallback="GetNextPage" IsDisabled="!HasNextPage()" />
+	</div>
+	<div class="mb-3">
+		<PWButton Title="Logout" OnClickCallback="Logout" />
+	</div>
 </div>

@@ -9,5 +9,7 @@ namespace PWComponents.Components
         public string Title { get; set; } = "";
         [Parameter]
         public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
-    }
+		[Parameter]
+		public bool IsDisabled { get; set; }
+	}
 }

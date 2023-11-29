@@ -22,12 +22,16 @@ namespace PWBlazorApplication.Store.HomeUseCase
 		public bool CreationSucceeded { get; init; }
 		public IEnumerable<Error> CreationErrors { get; init; } = new List<Error>();
 
+		public int PageNumber { get; init; } = 1;
+		public int PagesCount { get; init; }
+
 		private HomeState()
 		{
 
 		}
 
-		public HomeState(string name, decimal balance, IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort, IEnumerable<string> users)
+		public HomeState(string name, decimal balance, IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort, IEnumerable<string> users, int pageNumber,
+			int pagesCount)
 		{
 			Name = name ?? "";
 			Balance = balance;
@@ -35,6 +39,8 @@ namespace PWBlazorApplication.Store.HomeUseCase
 			FilterModel = filterModel ?? new FilterModel();	
 			CurrentSort = currentSort;
 			Users = users;
+			PageNumber = pageNumber;
+			PagesCount = pagesCount;
 		}
 	}
 }

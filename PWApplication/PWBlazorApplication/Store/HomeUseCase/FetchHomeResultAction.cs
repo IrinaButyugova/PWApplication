@@ -14,8 +14,10 @@ namespace PWBlazorApplication.Store.HomeUseCase
 
         public SortState CurrentSort { get; init; }
 		public IEnumerable<string> Users { get; init; } = new List<string>();
+		public int PagesCount { get; init; }
 
-		public FetchHomeResultAction(string name, decimal balance, IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort, IEnumerable<string> users)
+		public FetchHomeResultAction(string name, decimal balance, IEnumerable<Transaction> transactions, FilterModel filterModel, SortState currentSort, IEnumerable<string> users,
+		     int pagesCount)
         {
             Name = name;
             Balance = balance;
@@ -23,6 +25,7 @@ namespace PWBlazorApplication.Store.HomeUseCase
             FilterModel = filterModel;
             CurrentSort = currentSort;
             Users = users;
+            PagesCount = pagesCount;
         }
     }
 }
