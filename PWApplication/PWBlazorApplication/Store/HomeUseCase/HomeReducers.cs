@@ -15,7 +15,7 @@ namespace PWBlazorApplication.Store.HomeUseCase
 		}
 
 		[ReducerMethod]
-		public static HomeState ReduceFetchTransactionAction(HomeState state, FetchTransactionsResultAction action) 
+		public static HomeState ReduceFetchTransactionsAction(HomeState state, FetchTransactionsResultAction action) 
 		{
 			var newState = state with { Transactions = action.Transactions, FilterModel = action.FilterModel, CurrentSort = action.CurrentSort, CreationSucceeded = false, 
 				CreationErrors = new List<Error>(), PageNumber = action.PageNumber, PagesCount = action.PagesCount};
