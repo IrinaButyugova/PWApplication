@@ -39,6 +39,12 @@ builder.Services.AddFluxor(options => {
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+	var salesContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+	salesContext.Database.EnsureCreated();
+}
+
 app.UseStaticFiles();
 
 app.MapBlazorHub();

@@ -1,0 +1,15 @@
+﻿version: "3.9"  # optional since v1.27.0
+services:
+  pw_blazor_application:
+    image: pw_blazor_application
+    container_name: pw_blazor_application_con
+    ports:
+      - "32772:80"
+  sql:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: sql_server2023
+    ports: # not actually needed, because the two services are on the same network
+      - "1434:1434" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=A&VeryComplex123Password
